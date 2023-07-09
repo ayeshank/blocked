@@ -56,7 +56,7 @@ const SignupOptionsScreen = ({selectedLanguage, changeLanguage}) => {
         <View style={{marginVertical: 20}}>
           <Button
             name={t('as_a_student')}
-            onPress={() => handleTeacherSignup()}
+            onPress={() => handleStudentSignup()}
           />
           <ButtonOutline
             name={t('as_a_teacher')}

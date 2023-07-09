@@ -55,6 +55,10 @@ export const p6 = require('../../assets/ScreenMenu/p6.png');
 export const p7 = require('../../assets/ScreenMenu/p7.png');
 export const p8 = require('../../assets/ScreenMenu/p8.png');
 export const mic = require('../../assets/ScreenMenu/mic.png');
+export const verifyIcon = require('../../assets/verifyIcon.png');
+export const docIcon = require('../../assets/docIcon.png');
+export const searchIcon = require('../../assets/searchIcon.png');
+export const microphoneIcon = require('../../assets/microphoneIcon.png');
 
 const WidthDimension = Dimensions.get('window').width;
 const HeightDimension = Dimensions.get('window').height;
@@ -225,7 +229,7 @@ export default styles = StyleSheet.create({
     marginBottom: HeightDimension * 0.02,
   },
   forgotText: {
-    color: 'white',
+    color: 'black',
     fontSize: 15,
     fontFamily: 'Sansation_Regaular',
   },
@@ -367,13 +371,13 @@ export default styles = StyleSheet.create({
     margin: 20,
   },
   setting: {
-    color: 'white',
+    color: 'black',
     fontSize: 15,
     fontFamily: 'Sansation_Bold',
     textAlign: 'center',
   },
   profileSubText: {
-    color: 'white',
+    color: 'black',
     fontSize: 15,
     left: 20,
     fontFamily: 'Sansation_Bold',

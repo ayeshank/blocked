@@ -27,7 +27,13 @@ import Button from '../components/Button';
 import Snackbar from 'react-native-snackbar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SignupScreen = ({signupUser, fetchDeviceData, androidId, deviceId}) => {
+const SignupScreen = ({
+  signupUser,
+  fetchDeviceData,
+  androidId,
+  deviceId,
+  route,
+}) => {
   const {t} = useTranslation();
   const navigation = useNavigation();
 
@@ -96,7 +102,6 @@ const SignupScreen = ({signupUser, fetchDeviceData, androidId, deviceId}) => {
 
   useEffect(() => {
     if (token) {
-      // navigation.navigate('FirstSignUpQuestions');
       console.log('token is here****');
     }
   }, [token, navigation]);
@@ -187,7 +192,11 @@ const SignupScreen = ({signupUser, fetchDeviceData, androidId, deviceId}) => {
             duration: Snackbar.LENGTH_LONG,
           });
           setLoading(false); // Set loading to false after successful registration
-          navigation.navigate('Login');
+          if (route.params?.userType === 'Teacher') {
+            navigation.navigate('TeacherSignUpQuestion');
+          } else if (route.params?.userType === 'Student') {
+            navigation.navigate('StudentSignupQuestion');
+          }
           console.log('data: ', data);
         }
       } catch (error) {

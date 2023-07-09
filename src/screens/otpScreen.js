@@ -41,7 +41,7 @@ const OTPScreen = ({verifyOTP}) => {
           duration: Snackbar.LENGTH_LONG,
         });
         setLoading(false); // Set loading to false after successful registration
-        navigation.navigate('Landing');
+        navigation.navigate('Verified');
       }
     } catch (error) {
       setLoading(false);
