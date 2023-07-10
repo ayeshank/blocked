@@ -5,6 +5,7 @@ import {
   ScrollView,
   SafeAreaView,
   ActivityIndicator,
+  BackHandler,
 } from 'react-native';
 import GlobalHeader from '../components/GlobalHeader';
 // import NavBar from '../components/NavBar';
@@ -26,46 +27,41 @@ const ProfileScreen = () => {
   const [name, setName] = useState('Ayesha Noor Khan');
   const [phoneNo, setPhoneNo] = useState('+923328224649');
   const [email, setEmail] = useState('ayeshanoorank19@gmail.com');
-  const [token, setToken] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [QRCode, setQRCode] = useState('');
   const code = JSON.stringify(QRCode);
 
-  //   useEffect(() => {
-  //     getToken();
-  //   }, []);
-  //   useEffect(() => {
-  //     qrAPI();
-  //   }, [token]);
+  const getProfileData = async () => {
+    setName(await AsyncStorage.getItem('userName'));
+    setPhoneNo(await AsyncStorage.getItem('userPhone'));
+    setEmail(await AsyncStorage.getItem('userEmail'));
+    setQRCode(await AsyncStorage.getItem('userQRcode'));
+    console.log('name', await AsyncStorage.getItem('userName'));
+    console.log('phone', await AsyncStorage.getItem('userPhone'));
+    console.log('email', await AsyncStorage.getItem('userEmail'));
+    console.log('qrcode', await AsyncStorage.getItem('userQRcode'));
+  };
 
-  //   const getToken = async () => {
-  //     setToken(await AsyncStorage.getItem('otptoken'));
-  //   };
-  //   const tokenData = useSelector(state => state?.wallet?.token);
-  //   // console.log("user", user);
-  //   const qrAPI = async () => {
-  //     setLoading(true);
-  //     return await fetch(
-  //       'https://hopeaccelerated-backend.herokuapp.com/api/v1/auth/me',
-  //       {
-  //         method: 'GET',
-  //         headers: {
-  //           'content-type': 'application/json',
-  //           authorization: `Bearer ${tokenData}`,
-  //         },
-  //       },
-  //     )
-  //       .then(data => data.json())
-  //       .then(res => {
-  //         console.log('res', res);
-  //         setQRCode(res.data.user.qrcode);
-  //         setLoading(false);
-  //         setName(res.data.profile.firstName + ' ' + res.data.profile.lastName);
-  //         setEmail(res.data.user.email);
-  //         setPhoneNo(res.data.user.phone);
-  //       })
-  //       .catch(error => console.log(error), setLoading(false));
-  //   };
+  useEffect(() => {
+    getProfileData();
+  }, []);
+
+  const handleBackButton = () => {
+    // Navigate back to the MainMenu screen
+    navigation.navigate('MainMenu');
+    return true; // Return true to indicate that the back action is handled
+  };
+
+  useEffect(() => {
+    // Override the default back button behavior
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+
+    // Clean up the custom back button handler when the screen is unmounted
+    return () => backHandler.remove();
+  }, []);
   return (
     <Wrapper>
       <GlobalHeader />
@@ -75,10 +71,7 @@ const ProfileScreen = () => {
       /> */}
       <ScrollView>
         <SafeAreaView style={{marginVertical: 20}}>
-          <View style={styles.notification}>
-            <Text style={styles.forgotText}>{t('Notifications')}</Text>
-            <ToggleButton />
-          </View>
+          <Text style={styles.profileTitle}>{t('BlockEd Profile')}</Text>
           <Text style={styles.setting}>{t('My Settings')}</Text>
           <View style={styles.qr}>
             {loading ? (
@@ -88,15 +81,21 @@ const ProfileScreen = () => {
             )}
           </View>
 
-          <Text style={styles.profileSubText}>{t('Name')}</Text>
+          {/* <Text style={styles.profileSubText}>{t('Name')}</Text> */}
           <DisableTextBox name={name} />
-          <Text style={styles.profileSubText}>{t('Telephone_Number')}</Text>
+          {/* <Text style={styles.profileSubText}>{t('Telephone_Number')}</Text> */}
           <DisableTextBox name={phoneNo} />
-          <Text style={styles.profileSubText}>{t('Email')}</Text>
+          {/* <Text style={styles.profileSubText}>{t('Email')}</Text> */}
           <DisableTextBox name={email} />
-          <Text style={styles.profileSubText}>
+          <View style={styles.notification}>
+            <Text style={styles.pushNotification}>
+              {t('Push Notifications')}
+            </Text>
+            <ToggleButton />
+          </View>
+          {/* <Text style={styles.profileSubText}>
             {t('Change_your_Social_Networks')}
-          </Text>
+          </Text> */}
           <SocialButton />
         </SafeAreaView>
       </ScrollView>

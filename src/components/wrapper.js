@@ -16,6 +16,6 @@ const style = StyleSheet.create({
   container: {
     height: '100%',
     width: WidthDimension,
-    backgroundColor: 'white',
+    backgroundColor: '#F4F7FC',
   },
 });

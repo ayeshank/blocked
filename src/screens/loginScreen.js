@@ -11,12 +11,13 @@ import {connect} from 'react-redux';
 import {login} from '../reducers/loginActions';
 import LoadingButton from '../components/LoadingButton';
 import Snackbar from 'react-native-snackbar';
+import {err} from 'react-native-svg/lib/typescript/xml';
 
 const LoginScreen = ({login}) => {
   const {t} = useTranslation();
   const navigation = useNavigation();
   const [formattedValue, setFormattedValue] = useState('');
-  const [phone, setPhone] = useState();
+  const [phone, setPhone] = useState('3328224649');
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async () => {
@@ -46,6 +47,7 @@ const LoginScreen = ({login}) => {
       }
     } catch (error) {
       setLoading(false);
+      console.log('error: ', error);
       Snackbar.show({
         backgroundColor: 'red',
         text: 'Error occurred while signing in',

@@ -9,8 +9,8 @@ const ToggleButton = () => {
       value={isSwitchOn}
       onPress={val => setIsSwitchOn(val)}
       trackBar={{
-        activeBackgroundColor: '#3F5CC8',
-        inActiveBackgroundColor: 'white',
+        activeBackgroundColor: '#3FB65F',
+        inActiveBackgroundColor: '#E0E0E0',
         width: 50,
         height: 20,
       }}
@@ -18,10 +18,10 @@ const ToggleButton = () => {
         borderColor: 'white',
       }}
       thumbButton={{
-        width: 20,
-        height: 20,
+        width: 14,
+        height: 14,
         activeBackgroundColor: 'white',
-        inActiveBackgroundColor: '#E12160',
+        inActiveBackgroundColor: '#3FB65F',
       }}
     />
   );

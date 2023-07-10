@@ -16,7 +16,7 @@ export const signupUser = userData => {
         },
       );
 
-      AsyncStorage.setItem('userId', response.data.data.profile.id);
+      await AsyncStorage.setItem('userId', response.data.data.profile.id);
       otpAPI(response.data.data.otp, response.data.data.phone);
 
       dispatch(signupSuccess());

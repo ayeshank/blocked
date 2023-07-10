@@ -22,7 +22,7 @@ export const login = phone => {
           },
         },
       );
-      AsyncStorage.setItem('verify_Id', response.data.data.id);
+      await AsyncStorage.setItem('verify_Id', response.data.data.id);
       console.log('response.data.data.id: ', response.data.data.id);
       console.log('login Response: ', response.data);
       dispatch({

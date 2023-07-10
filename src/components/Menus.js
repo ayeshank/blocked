@@ -15,8 +15,8 @@ const Menus = ({
     }
     onSelect(name);
   };
-  const backgroundColor = selected === name ? '#3FB65F' : 'white';
-  const textColor = selected === name ? 'white' : '#4D4D4D';
+  const backgroundColor = selected === name ? '#3FB65F' : '#F4F7FC';
+  const textColor = selected === name ? '#F4F7FC' : '#4D4D4D';
   return (
     <TouchableOpacity onPress={handlePress}>
       <View

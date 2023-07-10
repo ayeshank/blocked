@@ -7,6 +7,7 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const OTP_REQUEST = 'OTP_REQUEST';
 export const OTP_SUCCESS = 'OTP_SUCCESS';
 export const OTP_FAILURE = 'OTP_FAILURE';
+export const GET_PROFILE = 'GET_PROFILE';
 
 export const signupRequest = userData => ({
   type: SIGNUP_REQUEST,
@@ -48,6 +49,10 @@ export const otpSuccess = () => ({
 export const otpFailure = error => ({
   type: OTP_FAILURE,
   payload: error,
+});
+
+export const getProfileRequest = () => ({
+  type: GET_PROFILE,
 });
 
 export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';

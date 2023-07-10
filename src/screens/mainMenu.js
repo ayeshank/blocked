@@ -7,19 +7,47 @@ import Menus from '../components/Menus';
 import SearchTextField from '../components/SearchTextField';
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
+import LogoutDialog from '../components/LogoutDialog';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 const MainMenu = () => {
   const {t} = useTranslation();
   const navigation = useNavigation();
   const [selectedItem, setSelectedItem] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [isLogin, setLogin] = useState(true);
 
   const handleMenuSelect = itemName => {
     setSelectedItem(itemName);
   };
 
+  const handleLogout = async () => {
+    // Remove the session token or user data from AsyncStorage
+    try {
+      await AsyncStorage.removeItem('sessionToken');
+      console.log(
+        "await AsyncStorage.removeItem('sessionToken'); ",
+        await AsyncStorage.removeItem('sessionToken'),
+      );
+      setLogin(false);
+      console.log('isLogin: ', isLogin);
+      navigation.navigate('Landing');
+      console.log('User logged out successfully');
+      // Close the modal after logout
+      setShowModal(false);
+      // Perform any additional actions upon successful logout
+    } catch (error) {
+      console.error('Error removing session token:', error);
+    }
+  };
+
   useEffect(() => {
     const backAction = () => {
-      navigation.navigate('Landing');
+      setShowModal(true);
+      if (isLogin == false) {
+        navigation.navigate('Landing');
+      }
       return true; // Return true to indicate that the back action is handled
     };
 
@@ -69,13 +97,20 @@ const MainMenu = () => {
               onSelect={() => handleMenuSelect('Messages')}
               selected={selectedItem}
             />
-            <Menus
-              name={t('Logout')}
-              onSelect={() => handleMenuSelect('Logout')}
-              selected={selectedItem}
-            />
+            <TouchableOpacity onPress={() => setShowModal(true)}>
+              <Menus
+                name={t('Logout')}
+                onSelect={() => handleMenuSelect('Logout')}
+                selected={selectedItem}
+              />
+            </TouchableOpacity>
           </View>
         </View>
+        <LogoutDialog
+          visible={showModal}
+          onClose={() => setShowModal(false)}
+          onLogout={() => handleLogout()}
+        />
       </ScrollView>
     </Wrapper>
   );
