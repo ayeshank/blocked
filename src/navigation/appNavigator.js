@@ -1,4 +1,7 @@
 import React from 'react';
+import {TouchableOpacity, Image} from 'react-native';
+import {arrow, dots} from '../theme/theme';
+import styles from '../theme/theme';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import SplashScreen from '../screens/splashScreen';
@@ -12,13 +15,15 @@ import StudentSignupQuestion from '../screens/studentSignupQuestions';
 import TeacherSignUpQuestion from '../screens/teacherSignupQuestions';
 import MainMenu from '../screens/mainMenu';
 import ProfileScreen from '../screens/profileScreen';
+import MessageScreen from '../screens/messageScreen';
+import ChatScreen from '../screens/chatScreen';
 
 const Stack = createStackNavigator();
 
 const AppNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SplashScreen">
+      <Stack.Navigator initialRouteName="Splash">
         <Stack.Screen
           name="Splash"
           component={SplashScreen}
@@ -73,6 +78,46 @@ const AppNavigator = () => {
           name="Profile"
           component={ProfileScreen}
           options={{title: 'Profile', headerShown: false}}
+        />
+        <Stack.Screen
+          name="MessageScreen"
+          component={MessageScreen}
+          options={({navigation}) => ({
+            title: 'Messages',
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'center',
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image source={arrow} style={styles.headerIconLeft} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => console.log('hello')}>
+                <Image source={dots} style={styles.headerIconRight} />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="ChatScreen"
+          component={ChatScreen}
+          options={({navigation, route}) => ({
+            // title: route.params.contact.name,
+            title: 'dummy',
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'center',
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image source={arrow} style={styles.headerIconLeft} />
+              </TouchableOpacity>
+            ),
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>

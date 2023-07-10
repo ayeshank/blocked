@@ -88,6 +88,8 @@ const MainMenu = () => {
             />
             <Menus
               name={t('Messages')}
+              screenName="MessageScreen"
+              navigation={navigation}
               onSelect={() => handleMenuSelect('Messages')}
               selected={selectedItem}
             />

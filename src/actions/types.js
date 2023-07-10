@@ -8,6 +8,9 @@ export const OTP_REQUEST = 'OTP_REQUEST';
 export const OTP_SUCCESS = 'OTP_SUCCESS';
 export const OTP_FAILURE = 'OTP_FAILURE';
 export const GET_PROFILE = 'GET_PROFILE';
+export const CONTACT_REQUEST = 'CONTACT_REQUEST';
+export const CONTACT_FAILURE = 'CONTACT_FAILURE';
+export const CONTACT_SUCCESS = 'CONTACT_SUCCESS';
 
 export const signupRequest = userData => ({
   type: SIGNUP_REQUEST,
@@ -53,6 +56,19 @@ export const otpFailure = error => ({
 
 export const getProfileRequest = () => ({
   type: GET_PROFILE,
+});
+
+export const contactsRequest = () => ({
+  type: CONTACT_REQUEST,
+});
+
+export const contactsSuccess = () => ({
+  type: CONTACT_SUCCESS,
+});
+
+export const contactsFailure = error => ({
+  type: CONTACT_FAILURE,
+  payload: error,
 });
 
 export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';

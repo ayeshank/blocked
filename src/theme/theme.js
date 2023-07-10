@@ -13,6 +13,9 @@ export const tick = require('../../assets/Screen5b/tick.png');
 export const passwordIcon = require('../../assets/Screen5b/passwordIcon.png');
 export const arrow = require('../../assets/Screen7b/arrow.png');
 export const dots = require('../../assets/Screen7b/dots.png');
+export const sendIcon = require('../../assets/Screen7b/sendIcon.png');
+export const micIcon = require('../../assets/Screen7b/mic.png');
+export const paperClip = require('../../assets/Screen7b/paperClip.png');
 export const facebook = require('../../assets/Screen7b/facebook.png');
 export const youtube = require('../../assets/Screen7b/youtube.png');
 export const google = require('../../assets/Screen7b/google.png');
@@ -59,6 +62,7 @@ export const verifyIcon = require('../../assets/verifyIcon.png');
 export const docIcon = require('../../assets/docIcon.png');
 export const searchIcon = require('../../assets/searchIcon.png');
 export const microphoneIcon = require('../../assets/microphoneIcon.png');
+export const userIcon = require('../../assets/userIcon.png');
 
 const WidthDimension = Dimensions.get('window').width;
 const HeightDimension = Dimensions.get('window').height;
@@ -71,6 +75,12 @@ export default styles = StyleSheet.create({
   errorCustom: {
     marginHorizontal: WidthDimension * 0.05,
     marginTop: HeightDimension * 0,
+  },
+  headerIconLeft: {
+    marginHorizontal: 15,
+  },
+  headerIconRight: {
+    marginHorizontal: 15,
   },
   languageDropdowncontainer: {
     flex: 1,

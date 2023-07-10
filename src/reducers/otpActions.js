@@ -65,6 +65,7 @@ export const getProfile = async () => {
     await AsyncStorage.setItem('userEmail', response.data.data.user.email);
     await AsyncStorage.setItem('userPhone', response.data.data.user.phone);
     await AsyncStorage.setItem('userQRcode', response.data.data.user.qrcode);
+    await AsyncStorage.setItem('user_id', response.data.data.profile._id);
     return response.data; // Return the response data
   } catch (error) {
     console.log('error: ', error);
