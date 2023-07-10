@@ -23,7 +23,7 @@ const SplashScreen = () => {
           setLogin(false);
         }
       } catch (error) {
-        console.error('Error checking session status:', error);
+        // console.error('Error checking session status:', error);
         // Handle the error case if needed
       }
     };

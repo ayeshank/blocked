@@ -43,7 +43,11 @@ const LandingScreen = ({selectedLanguage, changeLanguage}) => {
             <Image source={screen1logo} />
           </View>
           <Image source={screen1round} style={styles.roundImage} />
-          <Image source={welcomeText} style={styles.welcomeTextImage} />
+          <Text style={styles.landingTitle1}>
+            {t('PLEASE CREATE AN ACCOUNT')}
+          </Text>
+          <Text style={styles.landingTitle2}>{t('OR SIGN IN')}</Text>
+          {/* <Image source={welcomeText} style={styles.welcomeTextImage} /> */}
         </View>
 
         <View style={{marginVertical: 20}}>

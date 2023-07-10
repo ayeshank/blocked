@@ -1,19 +1,23 @@
 import React from 'react';
 import {View, Modal, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {useTranslation} from 'react-i18next';
 // import styles from '../theme/theme';
 
 const LogoutDialog = ({visible, onClose, onLogout}) => {
+  const {t} = useTranslation();
   return (
     <Modal visible={visible} transparent={true}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
-          <Text style={styles.modalText}>Are you sure you want to logout?</Text>
+          <Text style={styles.modalText}>
+            t('Are you sure you want to logout?')
+          </Text>
           <View style={styles.modalButtonsContainer}>
             <TouchableOpacity onPress={onLogout}>
-              <Text style={styles.modalButton}>Yes</Text>
+              <Text style={styles.modalButton}>t('Yes')</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onClose}>
-              <Text style={styles.modalButton}>No</Text>
+              <Text style={styles.modalButton}>t('No')</Text>
             </TouchableOpacity>
           </View>
         </View>

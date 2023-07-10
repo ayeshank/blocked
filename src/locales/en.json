@@ -46,5 +46,12 @@
     "Name": "Name",
     "Telephone_Number": "Telephone Number",
     "Email": "Email",
-    "Change_your_Social_Networks": "Change your Social Networks"
+    "Change_your_Social_Networks": "Change your Social Networks",
+    "Are you sure you want to logout?": "Are you sure you want to logout?",
+    "Yes": "Yes",
+    "No": "No",
+    "PLEASE CREATE AN ACCOUNT": "PLEASE CREATE AN ACCOUNT",
+    "OR SIGN IN": "OR SIGN IN",
+    "Please click if you would like to sign up": "Please click if you would like to sign up",
+    "as a Student or as a Teacher": "as a Student or as a Teacher"
   }

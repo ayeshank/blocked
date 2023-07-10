@@ -1,6 +1,13 @@
 import {triangleIcon} from '../theme/theme';
 import React, {useState} from 'react';
-import {View, Text, TouchableOpacity, Image, StyleSheet} from 'react-native';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  StyleSheet,
+  Dimensions,
+} from 'react-native';
 import {useTranslation} from 'react-i18next'; // Import useTranslation hook
 import i18n from '../i18n';
 
@@ -48,6 +55,9 @@ const LanguageDropdown = () => {
   );
 };
 
+const WidthDimension = Dimensions.get('window').width;
+const HeightDimension = Dimensions.get('window').height;
+
 const styles = StyleSheet.create({
   dropdownContainer: {
     flexDirection: 'row',
@@ -57,24 +67,27 @@ const styles = StyleSheet.create({
   },
   languages: {
     fontSize: 16,
-    color: 'black',
+    color: '#010169',
+    fontWeight: '700',
     marginRight: 5,
   },
   languageContainer: {
     position: 'absolute',
     top: 40,
+    marginLeft: 12,
     left: 0,
     backgroundColor: '#ffffff',
     padding: 10,
-    width: 130,
+    width: WidthDimension * 0.42,
     zIndex: 1,
   },
   languageItem: {
     marginBottom: 10,
-    color: 'black',
   },
   language: {
     fontSize: 16,
+    color: '#4D4D4D',
+    fontWeight: '500',
   },
 });
 

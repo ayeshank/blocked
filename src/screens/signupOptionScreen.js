@@ -49,8 +49,15 @@ const SignupOptionsScreen = ({selectedLanguage, changeLanguage}) => {
             <Image source={screen1logo} />
           </View>
           <Image source={screen2round} style={styles.roundImage} />
-          <Image source={welcomeText1} style={styles.welcomeTextImage} />
-          <Image source={welcomeText2} style={styles.welcomeTextImage} />
+          <Text style={styles.landingTitle1}>{t('create_an_account')}</Text>
+          <Text style={styles.signupOptionTitle1}>
+            {t('Please click if you would like to sign up')}
+          </Text>
+          <Text style={styles.signupOptionTitle2}>
+            {t('as a Student or as a Teacher')}
+          </Text>
+          {/* <Image source={welcomeText1} style={styles.welcomeTextImage} />
+          <Image source={welcomeText2} style={styles.welcomeTextImage} /> */}
         </View>
 
         <View style={{marginVertical: 20}}>
