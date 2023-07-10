@@ -36,10 +36,6 @@ const ProfileScreen = () => {
     setPhoneNo(await AsyncStorage.getItem('userPhone'));
     setEmail(await AsyncStorage.getItem('userEmail'));
     setQRCode(await AsyncStorage.getItem('userQRcode'));
-    console.log('name', await AsyncStorage.getItem('userName'));
-    console.log('phone', await AsyncStorage.getItem('userPhone'));
-    console.log('email', await AsyncStorage.getItem('userEmail'));
-    console.log('qrcode', await AsyncStorage.getItem('userQRcode'));
   };
 
   useEffect(() => {

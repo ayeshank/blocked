@@ -47,8 +47,6 @@ const SignupScreen = ({
   const [terms, setTerms] = useState(false);
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(true);
-  const [token, setToken] = useState('');
-  // const [otpToken, setOtpToken] = useState('');
 
   const errorState = {
     firstName: false,
@@ -71,9 +69,6 @@ const SignupScreen = ({
 
   useEffect(() => {
     fetchDeviceData();
-    console.log('fetchDeviceData: ', fetchDeviceData());
-    console.log('androidId: ', androidId);
-    console.log('deviceId: ', deviceId);
   }, [fetchDeviceData]);
 
   const firstKeyDown = () => {
@@ -95,16 +90,6 @@ const SignupScreen = ({
   useEffect(() => {
     firstNameRef.current.focus();
   }, []);
-
-  // const otptoken = value => {
-  //   setToken(value);
-  // };
-
-  useEffect(() => {
-    if (token) {
-      console.log('token is here****');
-    }
-  }, [token, navigation]);
 
   const handleSubmit = async () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -172,7 +157,6 @@ const SignupScreen = ({
       };
 
       try {
-        console.log('sendingOBJ: ', obj);
         const data = await signupUser(obj);
         if (
           data.error &&
@@ -197,7 +181,6 @@ const SignupScreen = ({
           } else if (route.params?.userType === 'Student') {
             navigation.navigate('StudentSignupQuestion');
           }
-          console.log('data: ', data);
         }
       } catch (error) {
         setLoading(false);

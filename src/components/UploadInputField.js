@@ -17,8 +17,6 @@ const UploadInputField = ({placeholder, iconImage, fileTypes}) => {
       });
 
       // Handle the selected file here
-
-      console.log('Selected File:', res);
     } catch (error) {
       if (DocumentPicker.isCancel(error)) {
         console.log('User canceled the file selection');

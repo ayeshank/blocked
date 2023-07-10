@@ -6,7 +6,6 @@ export const login = phone => {
   return async dispatch => {
     dispatch(loginRequest(phone));
     try {
-      console.log('workingapi');
       const response = await axios.post(
         'https://hopeaccelerated-backend.herokuapp.com/api/v1/check-mobi',
         JSON.stringify({
@@ -23,8 +22,6 @@ export const login = phone => {
         },
       );
       await AsyncStorage.setItem('verify_Id', response.data.data.id);
-      console.log('response.data.data.id: ', response.data.data.id);
-      console.log('login Response: ', response.data);
       dispatch({
         type: 'LOGIN_SUCCESS',
         payload: {phone}, // You can pass any necessary data here
