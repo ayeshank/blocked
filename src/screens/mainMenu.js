@@ -26,14 +26,8 @@ const MainMenu = () => {
     // Remove the session token or user data from AsyncStorage
     try {
       await AsyncStorage.removeItem('sessionToken');
-      console.log(
-        "await AsyncStorage.removeItem('sessionToken'); ",
-        await AsyncStorage.removeItem('sessionToken'),
-      );
       setLogin(false);
-      console.log('isLogin: ', isLogin);
       navigation.navigate('Landing');
-      console.log('User logged out successfully');
       // Close the modal after logout
       setShowModal(false);
       // Perform any additional actions upon successful logout
