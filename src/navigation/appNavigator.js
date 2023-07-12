@@ -17,6 +17,12 @@ import MainMenu from '../screens/mainMenu';
 import ProfileScreen from '../screens/profileScreen';
 import MessageScreen from '../screens/messageScreen';
 import ChatScreen from '../screens/chatScreen';
+import CourseCheckout from '../screens/courseCheckoutScreen';
+import CourseDetailView from '../screens/courseDetailViewScreen';
+import AvailableCoursesList from '../screens/AvailableCoursesListScreen';
+import RewardInterstitialScreen from '../screens/rewardInterstitialScreen';
+import TodayAppointmentScreen from '../screens/todayAppointmentScreen';
+import TodayAppointmentCoursesScreen from '../screens/todayAppointmentCoursesScreen';
 
 const Stack = createStackNavigator();
 
@@ -112,6 +118,60 @@ const AppNavigator = () => {
               backgroundColor: '#F4F7FC',
             },
             headerTitleAlign: 'center',
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image source={arrow} style={styles.headerIconLeft} />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="CourseCheckout"
+          component={CourseCheckout}
+          options={{title: 'CourseCheckout', headerShown: false}}
+        />
+        <Stack.Screen
+          name="CourseDetailView"
+          component={CourseDetailView}
+          options={{title: 'CourseDetailView', headerShown: false}}
+        />
+        <Stack.Screen
+          name="AvailableCoursesList"
+          component={AvailableCoursesList}
+          options={{title: 'AvailableCoursesList', headerShown: false}}
+        />
+        <Stack.Screen
+          name="RewardInterstitial"
+          component={RewardInterstitialScreen}
+          options={{title: 'RewardInterstitial', headerShown: false}}
+        />
+        <Stack.Screen
+          name="TodayAppointment"
+          component={TodayAppointmentScreen}
+          options={({navigation}) => ({
+            title: 'Today Appointment',
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'left',
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Image source={arrow} style={styles.headerIconLeft} />
+              </TouchableOpacity>
+            ),
+          })}
+        />
+        <Stack.Screen
+          name="TodayAppointmentCourses"
+          component={TodayAppointmentCoursesScreen}
+          options={({navigation}) => ({
+            title: 'Today Appointment',
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'left',
             headerLeft: () => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <Image source={arrow} style={styles.headerIconLeft} />

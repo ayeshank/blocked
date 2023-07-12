@@ -17,6 +17,10 @@ const SplashScreen = () => {
           "await AsyncStorage.getItem('sessionToken');",
           await AsyncStorage.getItem('sessionToken'),
         );
+        console.log(
+          "await AsyncStorage.getItem('sessionToken');",
+          await AsyncStorage.getItem('userId'),
+        );
         if (sessionToken != undefined && sessionToken != null) {
           setLogin(true);
         } else {
@@ -41,6 +45,12 @@ const SplashScreen = () => {
 
     // Call the session status checking function
     checkSessionStatus().then(delayNavigation);
+
+    // setTimeout(() => {
+    //   isLogin
+    //     ? navigation.navigate('MainMenu')
+    //     : navigation.navigate('Landing');
+    // }, 2000);
   }, []); // Empty dependency array to run the effect only once
 
   return (

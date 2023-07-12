@@ -10,14 +10,14 @@ const LogoutDialog = ({visible, onClose, onLogout}) => {
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text style={styles.modalText}>
-            t('Are you sure you want to logout?')
+            {t('Are you sure you want to logout?')}
           </Text>
           <View style={styles.modalButtonsContainer}>
             <TouchableOpacity onPress={onLogout}>
-              <Text style={styles.modalButton}>t('Yes')</Text>
+              <Text style={styles.modalButton}>{t('Yes')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={onClose}>
-              <Text style={styles.modalButton}>t('No')</Text>
+              <Text style={styles.modalButton}>{t('No')}</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -542,6 +542,14 @@ export default styles = StyleSheet.create({
     color: 'white',
     marginTop: 5,
   },
+  greenTitleText: {
+    fontSize: 18,
+    fontWeight: '700',
+    textAlign: 'center',
+    fontFamily: 'Sansation_Regular',
+    color: '#3FB65F',
+    paddingTop: HeightDimension * 0.078,
+  },
 });
 
 import styled from 'styled-components';
