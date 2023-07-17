@@ -1,6 +1,7 @@
 import React from 'react';
 import {TouchableOpacity, Image} from 'react-native';
-import {arrow, dots} from '../theme/theme';
+import {arrow, dots, screen1logo} from '../theme/theme';
+import GlobalHeader from '../components/GlobalHeader';
 import styles from '../theme/theme';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -23,6 +24,7 @@ import AvailableCoursesList from '../screens/AvailableCoursesListScreen';
 import RewardInterstitialScreen from '../screens/rewardInterstitialScreen';
 import TodayAppointmentScreen from '../screens/todayAppointmentScreen';
 import TodayAppointmentCoursesScreen from '../screens/todayAppointmentCoursesScreen';
+import WalletNavigator from './walletNavigator';
 
 const Stack = createStackNavigator();
 
@@ -177,6 +179,19 @@ const AppNavigator = () => {
                 <Image source={arrow} style={styles.headerIconLeft} />
               </TouchableOpacity>
             ),
+          })}
+        />
+        <Stack.Screen
+          name="WalletStack"
+          component={WalletNavigator}
+          options={({navigation}) => ({
+            title: <GlobalHeader />,
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'center',
+            headerLeft: false,
           })}
         />
       </Stack.Navigator>

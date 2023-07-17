@@ -82,6 +82,8 @@ const MainMenu = () => {
             />
             <Menus
               name={t('My Wallet')}
+              screenName="WalletStack"
+              navigation={navigation}
               onSelect={() => handleMenuSelect('My Wallet')}
               selected={selectedItem}
             />
