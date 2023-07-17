@@ -7,51 +7,41 @@ import {splash} from '../theme/theme';
 
 const SplashScreen = () => {
   const navigation = useNavigation();
-  const [isLogin, setLogin] = useState(null); // Initialize the state as null
+  // const [isLogin, setLogin] = useState(false); // Initialize the state as null
 
   useEffect(() => {
-    const checkSessionStatus = async () => {
+    async function checkSessionStatus() {
       try {
         const sessionToken = await AsyncStorage.getItem('sessionToken');
-        console.log(
-          "await AsyncStorage.getItem('sessionToken');",
-          await AsyncStorage.getItem('sessionToken'),
-        );
-        console.log(
-          "await AsyncStorage.getItem('sessionToken');",
-          await AsyncStorage.getItem('userId'),
-        );
-        if (sessionToken != undefined && sessionToken != null) {
-          setLogin(true);
+        console.log('sessionToken:', sessionToken);
+
+        if (sessionToken !== undefined && sessionToken !== null) {
+          return true;
         } else {
-          setLogin(false);
+          return false;
         }
       } catch (error) {
         console.error('Error checking session status:', error);
         // Handle the error case if needed
       }
-    };
+    }
 
-    const delayNavigation = () => {
+    const delayNavigation = async () => {
+      // Call the session status checking function and await its completion
+      const status = await checkSessionStatus();
+
       // Only navigate to the next screen if the session status has been determined
-      if (isLogin !== null) {
+      if (status !== null) {
         setTimeout(() => {
-          isLogin
+          status
             ? navigation.navigate('MainMenu')
             : navigation.navigate('Landing');
         }, 2000);
       }
     };
 
-    // Call the session status checking function
-    checkSessionStatus().then(delayNavigation);
-
-    // setTimeout(() => {
-    //   isLogin
-    //     ? navigation.navigate('MainMenu')
-    //     : navigation.navigate('Landing');
-    // }, 2000);
-  }, []); // Empty dependency array to run the effect only once
+    delayNavigation();
+  }, []);
 
   return (
     <Wrapper>

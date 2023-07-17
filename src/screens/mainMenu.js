@@ -61,16 +61,22 @@ const MainMenu = () => {
           <View style={{marginTop: 0}}>
             <Menus
               name={t('Lesson')}
+              screenName="AvailableCoursesList"
+              navigation={navigation}
               onSelect={() => handleMenuSelect('Lesson')}
               selected={selectedItem}
             />
             <Menus
               name={t('Classroom')}
+              screenName="TodayAppointmentCourses"
+              navigation={navigation}
               onSelect={() => handleMenuSelect('Classroom')}
               selected={selectedItem}
             />
             <Menus
               name={t('Calender')}
+              screenName="TodayAppointment"
+              navigation={navigation}
               onSelect={() => handleMenuSelect('Calender')}
               selected={selectedItem}
             />

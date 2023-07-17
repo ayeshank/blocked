@@ -7,6 +7,7 @@ import {
   ScrollView,
   Image,
   StyleSheet,
+  BackHandler,
 } from 'react-native';
 import GlobalHeader from '../components/GlobalHeader';
 import {
@@ -20,13 +21,22 @@ import Button from '../components/Button';
 import SearchTextField from '../components/SearchTextField';
 import {useTranslation} from 'react-i18next';
 import {useNavigation} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
+import {removeFromCart} from '../reducers/cartReducer';
+import {clearCart} from '../reducers/cartReducer';
+import Snackbar from 'react-native-snackbar';
 
 const WidthDimension = Dimensions.get('window').width;
 
-const Card = ({name, price, imageUrl}) => {
-  const handleDropdownPress = () => {
-    console.log(`Dropdown button pressed for ${name}`);
-    // Add your logic for the dropdown button press here
+const Card = ({itemId, name, price, imageUrl}) => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  const handleDropdownPress = itemId => {
+    const removeItem = itemId;
+    dispatch(removeFromCart(removeItem));
+    navigation.navigate('CourseCheckout');
   };
 
   return (
@@ -42,7 +52,7 @@ const Card = ({name, price, imageUrl}) => {
           <Text style={styles.cardPrice}>{price}</Text>
           <TouchableOpacity
             style={styles.dropdownButton}
-            onPress={handleDropdownPress}>
+            onPress={() => handleDropdownPress(itemId)}>
             <Image source={dropdown2} />
           </TouchableOpacity>
         </View>
@@ -53,7 +63,10 @@ const Card = ({name, price, imageUrl}) => {
 
 const CourseCheckout = () => {
   const navigation = useNavigation();
+  const cartItems = useSelector(state => state.cart.items);
   const {t} = useTranslation();
+  const dispatch = useDispatch();
+
   const courses = [
     {
       id: 1,
@@ -68,20 +81,53 @@ const CourseCheckout = () => {
       imageUrl: algebraCourseLogo2,
     },
   ];
+
+  const handleWalletPayment = () => {
+    console.log('clearcart');
+    dispatch(clearCart());
+    Snackbar.show({
+      backgroundColor: 'green',
+      text: 'Payment Successful',
+      duration: Snackbar.LENGTH_LONG,
+    });
+    navigation.navigate('MainMenu');
+  };
+
+  const handleBackButton = () => {
+    // Navigate back to the MainMenu screen
+    navigation.navigate('MainMenu');
+    return true; // Return true to indicate that the back action is handled
+  };
+
+  useEffect(() => {
+    // Override the default back button behavior
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+
+    // Clean up the custom back button handler when the screen is unmounted
+    return () => backHandler.remove();
+  }, []);
   return (
     <Wrapper>
       <GlobalHeader />
       <SearchTextField />
       <ScrollView>
         <View style={styles.container}>
-          {courses.map(course => (
-            <Card
-              key={course.id}
-              name={course.title}
-              price={course.price}
-              imageUrl={course.imageUrl}
-            />
-          ))}
+          {cartItems.length === 0 ? (
+            <Text style={styles.emptyCart}>{t('No Item in Your Cart')}</Text>
+          ) : (
+            cartItems.map(course => (
+              <Card
+                key={course.itemId}
+                itemId={course.itemId} // Add a unique key prop using the item's id
+                name={course.title}
+                price={course.price}
+                imageUrl={course.imageUrl}
+              />
+            ))
+          )}
         </View>
         <TouchableOpacity onPress={() => console.log('press')}>
           <View style={styles.buttonContainer}>
@@ -105,7 +151,7 @@ const CourseCheckout = () => {
       </ScrollView>
       <Button
         name={t('Pay_In_BlockEd_Wallet')}
-        onPress={() => console.log('hello')}
+        onPress={() => handleWalletPayment()}
       />
     </Wrapper>
   );
@@ -194,6 +240,12 @@ const styles = StyleSheet.create({
     color: '#3FB65F',
     fontWeight: 'bold',
     fontSize: 17,
+  },
+  emptyCart: {
+    paddingBottom: 23,
+    fontSize: 18,
+    color: 'red',
+    fontWeight: '700',
   },
 });
 

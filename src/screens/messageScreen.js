@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   StyleSheet,
+  BackHandler,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
@@ -52,7 +53,7 @@ const MessageScreen = ({fetchContacts}) => {
       } else {
         if (data.length == 0) {
           setNoContactFound(true);
-          console.log('workind');
+          console.log('working message screen');
           setContacts([
             {
               id: 1,
@@ -103,10 +104,25 @@ const MessageScreen = ({fetchContacts}) => {
       </View>
     </TouchableOpacity>
   );
+  const handleBackButton = () => {
+    // Navigate back to the MainMenu screen
+    navigation.navigate('MainMenu');
+    return true; // Return true to indicate that the back action is handled
+  };
 
+  useEffect(() => {
+    // Override the default back button behavior
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+
+    // Clean up the custom back button handler when the screen is unmounted
+    return () => backHandler.remove();
+  }, []);
   if (loading) {
     return (
-      <View style={styles.container}>
+      <View style={styles.loadingContainer}>
         <Text>Loading...</Text>
       </View>
     );
@@ -129,7 +145,7 @@ const MessageScreen = ({fetchContacts}) => {
       ) : (
         <FlatList
           style={styles.listStyle}
-          data={filteredContacts}
+          data={() => filteredContacts}
           keyExtractor={item => item.id.toString()}
           renderItem={renderContactItem}
         />
@@ -187,6 +203,10 @@ const styles = StyleSheet.create({
   contactPhoneNumber: {
     fontSize: 14,
     color: '#A0A0A0',
+  },
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   listStyle: {
     // borderWidth: 4,
