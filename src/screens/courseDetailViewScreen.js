@@ -8,7 +8,6 @@ import {
   StyleSheet,
   BackHandler,
 } from 'react-native';
-import GlobalHeader from '../components/GlobalHeader';
 import {QRCode, addToCartIcon} from '../theme/theme';
 import Wrapper from '../components/wrapper';
 import Button from '../components/Button';
@@ -37,7 +36,7 @@ const CourseDetailView = () => {
   };
   const handleBackButton = () => {
     // Navigate back to the MainMenu screen
-    navigation.navigate('MainMenu');
+    navigation.goBack();
     return true; // Return true to indicate that the back action is handled
   };
 
@@ -53,7 +52,6 @@ const CourseDetailView = () => {
   }, []);
   return (
     <Wrapper>
-      <GlobalHeader />
       <ScrollView>
         <SearchTextField />
         <View style={styles.centerContainer}>

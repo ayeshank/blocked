@@ -508,6 +508,7 @@ export default styles = StyleSheet.create({
   signupQuestions: {
     textAlign: 'left',
     fontSize: 15,
+    color: 'Black',
     fontFamily: 'Sansation_Regular',
   },
   selectHeaderHorizontal: {

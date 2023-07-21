@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
-import GlobalHeader from '../components/GlobalHeader';
 import {uploadAdHereIcon} from '../theme/theme';
 import styles from '../theme/theme';
 import Wrapper from '../components/wrapper';
@@ -15,7 +14,6 @@ const RewardInterstitialScreen = () => {
 
   return (
     <Wrapper>
-      <GlobalHeader />
       <Text style={styles.greenTitleText}>{t('Reward or Interstitial')}</Text>
       <View style={myStyles.container}>
         <View style={myStyles.imageContainer}>

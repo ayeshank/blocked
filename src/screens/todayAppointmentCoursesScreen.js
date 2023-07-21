@@ -7,9 +7,8 @@ import {
   Dimensions,
   ScrollView,
   TouchableOpacity,
+  BackHandler,
 } from 'react-native';
-import GlobalHeader from '../components/GlobalHeader';
-import styles from '../theme/theme';
 import Wrapper from '../components/wrapper';
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
@@ -50,7 +49,22 @@ const TodayAppointmentCoursesScreen = () => {
     setSelectedDate(selectedDay);
     console.log(getFormattedDate(selectedDay));
   };
+  const handleBackButton = () => {
+    // Navigate back to the MainMenu screen
+    navigation.navigate('MainMenu');
+    return true; // Return true to indicate that the back action is handled
+  };
 
+  useEffect(() => {
+    // Override the default back button behavior
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+
+    // Clean up the custom back button handler when the screen is unmounted
+    return () => backHandler.remove();
+  }, []);
   const courses = [
     {
       id: 1,
@@ -80,7 +94,6 @@ const TodayAppointmentCoursesScreen = () => {
 
   return (
     <Wrapper>
-      {/* <GlobalHeader /> */}
       <View style={myStyles.container}>
         <Calendar
           onDayPress={handleDatePress}

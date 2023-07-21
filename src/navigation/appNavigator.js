@@ -20,11 +20,11 @@ import MessageScreen from '../screens/messageScreen';
 import ChatScreen from '../screens/chatScreen';
 import CourseCheckout from '../screens/courseCheckoutScreen';
 import CourseDetailView from '../screens/courseDetailViewScreen';
-import AvailableCoursesList from '../screens/AvailableCoursesListScreen';
 import RewardInterstitialScreen from '../screens/rewardInterstitialScreen';
 import TodayAppointmentScreen from '../screens/todayAppointmentScreen';
 import TodayAppointmentCoursesScreen from '../screens/todayAppointmentCoursesScreen';
 import WalletNavigator from './walletNavigator';
+import AvailableCoursesListScreen from '../screens/AvailableCoursesListScreen';
 
 const Stack = createStackNavigator();
 
@@ -133,55 +133,79 @@ const AppNavigator = () => {
         <Stack.Screen
           name="CourseCheckout"
           component={CourseCheckout}
-          options={{title: 'CourseCheckout', headerShown: false}}
+          options={({navigation}) => ({
+            title: <GlobalHeader />,
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'center',
+            headerLeft: false,
+          })}
         />
         <Stack.Screen
           name="CourseDetailView"
           component={CourseDetailView}
-          options={{title: 'CourseDetailView', headerShown: false}}
+          options={({navigation}) => ({
+            title: <GlobalHeader />,
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'center',
+            headerLeft: false,
+          })}
         />
         <Stack.Screen
           name="AvailableCoursesList"
-          component={AvailableCoursesList}
-          options={{title: 'AvailableCoursesList', headerShown: false}}
+          component={AvailableCoursesListScreen}
+          options={({navigation}) => ({
+            title: <GlobalHeader />,
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'center',
+            headerLeft: false,
+          })}
         />
         <Stack.Screen
           name="RewardInterstitial"
           component={RewardInterstitialScreen}
-          options={{title: 'RewardInterstitial', headerShown: false}}
+          options={({navigation}) => ({
+            title: <GlobalHeader />,
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'center',
+            headerLeft: false,
+          })}
         />
         <Stack.Screen
           name="TodayAppointment"
           component={TodayAppointmentScreen}
           options={({navigation}) => ({
-            title: 'Today Appointment',
+            title: <GlobalHeader />,
             headerShown: true,
             headerStyle: {
               backgroundColor: '#F4F7FC',
             },
-            headerTitleAlign: 'left',
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image source={arrow} style={styles.headerIconLeft} />
-              </TouchableOpacity>
-            ),
+            headerTitleAlign: 'center',
+            headerLeft: false,
           })}
         />
         <Stack.Screen
           name="TodayAppointmentCourses"
           component={TodayAppointmentCoursesScreen}
           options={({navigation}) => ({
-            title: 'Today Appointment',
+            title: <GlobalHeader />,
             headerShown: true,
             headerStyle: {
               backgroundColor: '#F4F7FC',
             },
-            headerTitleAlign: 'left',
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Image source={arrow} style={styles.headerIconLeft} />
-              </TouchableOpacity>
-            ),
+            headerTitleAlign: 'center',
+            headerLeft: false,
           })}
         />
         <Stack.Screen

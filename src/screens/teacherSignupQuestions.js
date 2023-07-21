@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, BackHandler} from 'react-native';
 import GlobalHeader from '../components/GlobalHeader';
 import styles from '../theme/theme';
 import Wrapper from '../components/wrapper';
@@ -27,7 +27,22 @@ const TeacherSignUpQuestion = () => {
       navigation.navigate('Login');
     }
   };
+  const handleBackButton = () => {
+    // Navigate back to the MainMenu screen
+    navigation.goBack();
+    return true; // Return true to indicate that the back action is handled
+  };
 
+  useEffect(() => {
+    // Override the default back button behavior
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+
+    // Clean up the custom back button handler when the screen is unmounted
+    return () => backHandler.remove();
+  }, []);
   return (
     <View>
       <Wrapper>

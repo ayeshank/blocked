@@ -1,6 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, Image, StyleSheet, Dimensions} from 'react-native';
-import GlobalHeader from '../components/GlobalHeader';
+import {
+  View,
+  Text,
+  Image,
+  StyleSheet,
+  Dimensions,
+  BackHandler,
+} from 'react-native';
 import styles from '../theme/theme';
 import Wrapper from '../components/wrapper';
 import {useNavigation} from '@react-navigation/native';
@@ -29,10 +35,24 @@ const TodayAppointmentScreen = () => {
     setSelectedDate(selectedDay);
     console.log(getFormattedDate(selectedDay));
   };
+  const handleBackButton = () => {
+    // Navigate back to the MainMenu screen
+    navigation.navigate('MainMenu');
+    return true; // Return true to indicate that the back action is handled
+  };
 
+  useEffect(() => {
+    // Override the default back button behavior
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+
+    // Clean up the custom back button handler when the screen is unmounted
+    return () => backHandler.remove();
+  }, []);
   return (
     <Wrapper>
-      <GlobalHeader />
       <Text style={styles.greenTitleText}>
         {t('Schedule a live Remote Course')}
       </Text>

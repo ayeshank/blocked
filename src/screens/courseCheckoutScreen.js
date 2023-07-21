@@ -9,7 +9,6 @@ import {
   StyleSheet,
   BackHandler,
 } from 'react-native';
-import GlobalHeader from '../components/GlobalHeader';
 import {
   algebraCourseLogo2,
   mathCourseLogo,
@@ -95,7 +94,7 @@ const CourseCheckout = () => {
 
   const handleBackButton = () => {
     // Navigate back to the MainMenu screen
-    navigation.navigate('MainMenu');
+    navigation.goBack();
     return true; // Return true to indicate that the back action is handled
   };
 
@@ -111,7 +110,6 @@ const CourseCheckout = () => {
   }, []);
   return (
     <Wrapper>
-      <GlobalHeader />
       <SearchTextField />
       <ScrollView>
         <View style={styles.container}>

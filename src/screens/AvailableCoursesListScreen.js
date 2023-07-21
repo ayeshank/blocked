@@ -9,7 +9,6 @@ import {
   StyleSheet,
   BackHandler,
 } from 'react-native';
-import GlobalHeader from '../components/GlobalHeader';
 import {
   algebraCourseLogo3,
   pythonCourseLogo,
@@ -48,7 +47,7 @@ const Card = ({itemId, title, price, imageUrl, category}) => {
   );
 };
 
-const AvailableCoursesList = () => {
+const AvailableCoursesListScreen = () => {
   const navigation = useNavigation();
   const {t} = useTranslation();
 
@@ -103,7 +102,6 @@ const AvailableCoursesList = () => {
   ];
   return (
     <Wrapper>
-      <GlobalHeader />
       <ScrollView>
         <View style={styles.container}>
           {courses.map(course => (
@@ -162,4 +160,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AvailableCoursesList;
+export default AvailableCoursesListScreen;

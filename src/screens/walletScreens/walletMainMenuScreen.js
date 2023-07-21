@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, StyleSheet, Dimensions} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, StyleSheet, Dimensions, BackHandler} from 'react-native';
 import {forwardArrow, arrowDropdown} from '../../theme/theme';
 import Wrapper from '../../components/wrapper';
 import WhiteButton from '../../components/CustomWhiteButton';
@@ -12,7 +12,22 @@ const WalletMainMenu = () => {
   const handleToggleRecoveryPhase = () => {
     setShowRecoveryPhase(!showRecoveryPhase);
   };
+  const handleBackButton = () => {
+    // Navigate back to the MainMenu screen
+    navigation.navigate('MainMenu');
+    return true; // Return true to indicate that the back action is handled
+  };
 
+  useEffect(() => {
+    // Override the default back button behavior
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+
+    // Clean up the custom back button handler when the screen is unmounted
+    return () => backHandler.remove();
+  }, []);
   return (
     <Wrapper>
       <View style={styles.container}>

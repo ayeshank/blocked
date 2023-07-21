@@ -1,5 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text, Image, ScrollView, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  BackHandler,
+} from 'react-native';
 import Button from '../components/Button';
 import ButtonOutline from '../components/ButtonOutline';
 import {
@@ -33,6 +40,22 @@ const SignupOptionsScreen = ({selectedLanguage, changeLanguage}) => {
     navigation.navigate('Signup', {userType: 'Student'});
   };
 
+  const handleBackButton = () => {
+    // Navigate back to the MainMenu screen
+    navigation.goBack();
+    return true; // Return true to indicate that the back action is handled
+  };
+
+  useEffect(() => {
+    // Override the default back button behavior
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+
+    // Clean up the custom back button handler when the screen is unmounted
+    return () => backHandler.remove();
+  }, []);
   return (
     <Wrapper>
       <ScrollView>
