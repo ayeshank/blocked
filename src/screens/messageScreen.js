@@ -23,6 +23,32 @@ const MessageScreen = ({fetchContacts}) => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [noContactFound, setNoContactFound] = useState(false);
+  const dummyContacts = [
+    {
+      id: 1,
+      name: 'hjk@gmail.com',
+      phoneNumber: 'Contacts',
+      image: userIcon,
+    },
+    {
+      id: 2,
+      name: 'al@gmail.com',
+      phoneNumber: 'Contacts',
+      image: userIcon,
+    },
+    {
+      id: 3,
+      name: 'bilalsoftware6285@gmail.com',
+      phoneNumber: 'Contacts',
+      image: userIcon,
+    },
+    {
+      id: 4,
+      name: 'talha1392.ahmed@gmail.com',
+      phoneNumber: 'Contacts',
+      image: userIcon,
+    },
+  ];
 
   const filteredContacts = contacts?.filter(contact =>
     contact.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -52,24 +78,12 @@ const MessageScreen = ({fetchContacts}) => {
         });
       } else {
         if (data.length == 0) {
-          setNoContactFound(true);
+          setNoContactFound(false);
           console.log('working message screen');
-          setContacts([
-            {
-              id: 1,
-              name: 'John Doe',
-              phoneNumber: '123-456-7890',
-              image: userIcon,
-            },
-            {
-              id: 2,
-              name: 'Jane Smith',
-              phoneNumber: '987-654-3210',
-              image: userIcon,
-            },
-            // Add more contacts as needed
-          ]);
+          setContacts(dummyContacts);
         } else {
+          // setContacts(data);
+          setNoContactFound(false);
           setContacts(data);
         }
         Snackbar.show({
@@ -122,8 +136,10 @@ const MessageScreen = ({fetchContacts}) => {
   }, []);
   if (loading) {
     return (
-      <View style={styles.loadingContainer}>
-        <Text>Loading...</Text>
+      <View style={styles.container}>
+        <View style={styles.loadingContainer}>
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
       </View>
     );
   }
@@ -145,7 +161,7 @@ const MessageScreen = ({fetchContacts}) => {
       ) : (
         <FlatList
           style={styles.listStyle}
-          data={() => filteredContacts}
+          data={filteredContacts}
           keyExtractor={item => item.id.toString()}
           renderItem={renderContactItem}
         />
@@ -205,11 +221,15 @@ const styles = StyleSheet.create({
     color: '#A0A0A0',
   },
   loadingContainer: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  listStyle: {
-    // borderWidth: 4,
+  loadingText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 19,
+    color: '#3FB65F',
   },
 });
 

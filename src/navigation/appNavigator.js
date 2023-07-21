@@ -113,11 +113,14 @@ const AppNavigator = () => {
           name="ChatScreen"
           component={ChatScreen}
           options={({navigation, route}) => ({
-            // title: route.params.contact.name,
-            title: 'dummy',
+            title: route.params.contact.name,
+            // title: 'dummy',
             headerShown: true,
             headerStyle: {
               backgroundColor: '#F4F7FC',
+            },
+            headerTitleStyle: {
+              fontSize: 16,
             },
             headerTitleAlign: 'center',
             headerLeft: () => (
