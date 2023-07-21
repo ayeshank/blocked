@@ -1,83 +1,5 @@
-// import React, {useState} from 'react';
-// import {
-//   View,
-//   TextInput,
-//   TouchableOpacity,
-//   Text,
-//   StyleSheet,
-//   Image,
-// } from 'react-native';
-// import {useNavigation} from '@react-navigation/native';
-// import {useTranslation} from 'react-i18next';
-
-// const ChatScreen = ({route}) => {
-//   const {contact} = route.params;
-//   const [message, setMessage] = useState('');
-//   const navigation = useNavigation();
-//   const {t} = useTranslation();
-
-//   const handleMessageSend = () => {
-//     // Perform logic to send the message
-//     console.log(`Sending message "${message}" to ${contact.name}`);
-//     // Clear the message input field
-//     setMessage('');
-//   };
-
-//   return (
-//     <View style={styles.messageContainer}>
-//       <View style={styles.contactInfo}>
-//         <Image source={contact.image} style={styles.contactImage} />
-//         <Text style={styles.contactName}>{contact.name}</Text>
-//         <Text style={styles.contactPhoneNumber}>{contact.phoneNumber}</Text>
-//       </View>
-//       <TextInput
-//         style={styles.messageInput}
-//         placeholder={t('Type a message')}
-//         value={message}
-//         onChangeText={setMessage}
-//       />
-//       <View style={styles.messageOptions}>
-//         <TouchableOpacity onPress={() => console.log('Attachment')}>
-//           <Text>Attachment</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity onPress={() => console.log('Microphone')}>
-//           <Text>Microphone</Text>
-//         </TouchableOpacity>
-//         <TouchableOpacity onPress={handleMessageSend}>
-//           <Text>Send</Text>
-//         </TouchableOpacity>
-//       </View>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   messageContainer: {
-//     flex: 1,
-//     padding: 16,
-//   },
-//   contactInfo: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     marginBottom: 16,
-//   },
-//   messageInput: {
-//     height: 40,
-//     borderWidth: 1,
-//     borderColor: '#ccc',
-//     borderRadius: 8,
-//     paddingHorizontal: 12,
-//     marginBottom: 16,
-//   },
-//   messageOptions: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//   },
-// });
-
-// export default ChatScreen;
 import React, {useState, useEffect} from 'react';
-import {View, Image, StyleSheet, Dimensions} from 'react-native';
+import {View, Image, StyleSheet, Dimensions, BackHandler} from 'react-native';
 import {
   GiftedChat,
   Bubble,
@@ -262,7 +184,22 @@ const ChatScreen = ({route, navigation}) => {
       </Send>
     );
   };
+  const handleBackButton = () => {
+    // Navigate back to the MainMenu screen
+    navigation.goBack();
+    return true; // Return true to indicate that the back action is handled
+  };
 
+  useEffect(() => {
+    // Override the default back button behavior
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      handleBackButton,
+    );
+
+    // Clean up the custom back button handler when the screen is unmounted
+    return () => backHandler.remove();
+  }, []);
   return (
     <View style={styles.container}>
       <GiftedChat

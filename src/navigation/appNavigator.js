@@ -25,6 +25,7 @@ import TodayAppointmentScreen from '../screens/todayAppointmentScreen';
 import TodayAppointmentCoursesScreen from '../screens/todayAppointmentCoursesScreen';
 import WalletNavigator from './walletNavigator';
 import AvailableCoursesListScreen from '../screens/AvailableCoursesListScreen';
+import AllCoursesListScreen from '../screens/allCoursesListScreen';
 
 const Stack = createStackNavigator();
 
@@ -159,6 +160,19 @@ const AppNavigator = () => {
         <Stack.Screen
           name="AvailableCoursesList"
           component={AvailableCoursesListScreen}
+          options={({navigation}) => ({
+            title: <GlobalHeader />,
+            headerShown: true,
+            headerStyle: {
+              backgroundColor: '#F4F7FC',
+            },
+            headerTitleAlign: 'center',
+            headerLeft: false,
+          })}
+        />
+        <Stack.Screen
+          name="AllCoursesList"
+          component={AllCoursesListScreen}
           options={({navigation}) => ({
             title: <GlobalHeader />,
             headerShown: true,
