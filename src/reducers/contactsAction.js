@@ -13,9 +13,6 @@ export const fetchContacts = otp => {
       const loginIdValue = await AsyncStorage.getItem('verify_Id');
       const loginIdValue2 = await AsyncStorage.getItem('user_id');
       const apiToken = await AsyncStorage.getItem('sessionToken');
-      console.log('loginIdValue: ', loginIdValue);
-      console.log('loginIdValue2: ', loginIdValue2);
-      console.log('apiToken: ', apiToken);
       var search = '';
 
       const response = await axios.get(
@@ -28,8 +25,6 @@ export const fetchContacts = otp => {
         },
       );
       if (response) {
-        console.log('response: ', response.data);
-        console.log('response: ', response);
         // await AsyncStorage.setItem('sessionToken', response.data.token);
         return response.data.data;
       }

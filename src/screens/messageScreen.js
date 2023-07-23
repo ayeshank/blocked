@@ -65,7 +65,6 @@ const MessageScreen = ({fetchContacts}) => {
   const handleFetchContacts = async () => {
     try {
       const data = await fetchContacts();
-      console.log(data);
       if (
         data.error &&
         data.error.response &&
@@ -79,7 +78,6 @@ const MessageScreen = ({fetchContacts}) => {
       } else {
         if (data.length == 0) {
           setNoContactFound(false);
-          console.log('working message screen');
           setContacts(dummyContacts);
         } else {
           // setContacts(data);

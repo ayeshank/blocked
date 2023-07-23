@@ -63,7 +63,6 @@ const ChatScreen = ({route, navigation}) => {
   const fetchUserId = async () => {
     var getUser = await AsyncStorage.getItem('user_id');
     setUserId(getUser);
-    console.log('userId:', userId);
   };
   const onSend = (messages = []) => {
     const newMessage = {

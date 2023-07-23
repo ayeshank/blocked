@@ -21,35 +21,33 @@ import {useNavigation} from '@react-navigation/native';
 
 const WidthDimension = Dimensions.get('window').width;
 
-const Card = ({itemId, title, price, imageUrl, category}) => {
-  const navigation = useNavigation();
-
-  const handleCardPress = () => {
-    navigation.navigate('CourseDetailView', {
-      itemId,
-      title,
-      price,
-      imageUrl,
-      category,
-    });
-  };
-  return (
-    <TouchableOpacity
-      style={styles.cardContainer}
-      onPress={() => handleCardPress()}>
-      <Image source={imageUrl} style={styles.cardImage} />
-      <View style={styles.cardContent}>
-        <Text style={styles.cardTitle}>{title}</Text>
-        <Text style={styles.cardPrice}>{price}</Text>
-        <Text style={styles.cardPrice}>{category}</Text>
-      </View>
-    </TouchableOpacity>
-  );
-};
-
 const AllCoursesListScreen = () => {
   const navigation = useNavigation();
   const {t} = useTranslation();
+
+  const CourseCard = ({itemId, title, price, imageUrl, category}) => {
+    const handleCardPress = () => {
+      navigation.navigate('CourseDetailView', {
+        itemId,
+        title,
+        price,
+        imageUrl,
+        category,
+      });
+    };
+    return (
+      <TouchableOpacity
+        style={styles.cardContainer}
+        onPress={() => handleCardPress()}>
+        <Image source={imageUrl} style={styles.cardImage} />
+        <View style={styles.cardContent}>
+          <Text style={styles.cardTitle}>{title}</Text>
+          <Text style={styles.cardPrice}>{price}</Text>
+          <Text style={styles.cardPrice}>{category}</Text>
+        </View>
+      </TouchableOpacity>
+    );
+  };
 
   const handleBackButton = () => {
     // Navigate back to the MainMenu screen
@@ -105,7 +103,7 @@ const AllCoursesListScreen = () => {
       <ScrollView>
         <View style={styles.container}>
           {courses.map(course => (
-            <Card
+            <CourseCard
               key={course.id}
               itemId={course.id}
               title={course.title}

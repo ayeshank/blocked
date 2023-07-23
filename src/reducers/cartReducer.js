@@ -20,7 +20,6 @@ const cartSlice = createSlice({
       state.items = state.items.filter(item => item.itemId !== itemId);
     },
     clearCart(state) {
-      console.log('clear: ');
       state.items = [];
     },
   },

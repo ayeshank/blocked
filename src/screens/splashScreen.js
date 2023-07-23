@@ -13,7 +13,6 @@ const SplashScreen = () => {
     async function checkSessionStatus() {
       try {
         const sessionToken = await AsyncStorage.getItem('sessionToken');
-        console.log('sessionToken:', sessionToken);
 
         if (sessionToken !== undefined && sessionToken !== null) {
           return true;

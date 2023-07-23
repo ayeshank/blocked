@@ -47,7 +47,7 @@ const TodayAppointmentCoursesScreen = () => {
   const handleDatePress = day => {
     const selectedDay = day.dateString;
     setSelectedDate(selectedDay);
-    console.log(getFormattedDate(selectedDay));
+    // console.log(getFormattedDate(selectedDay));
   };
   const handleBackButton = () => {
     // Navigate back to the MainMenu screen
