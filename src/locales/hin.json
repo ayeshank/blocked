@@ -76,6 +76,7 @@
     "Country": "देश",
     "OTP is not correct": "ओटीपी सही नहीं है",
     "OTP Verified": "ओटीपी सत्यापित हो गया",
+    "OTP_is_Required": "ओटीपी आवश्यक है",
     "Error occurred while signing in": "साइन इन करते समय त्रुटि हुई",
     "Create your recovery phrase": "अपना रिकवरी शब्द सृजन करें",
     "Seed Phrase": "बीज वाक्यांश",

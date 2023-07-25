@@ -76,6 +76,7 @@
     "Country": "国家",
     "OTP is not correct": "OTP不正确",
     "OTP Verified": "OTP已验证",
+    "OTP_is_Required": "需要OTP",
     "Error occurred while signing in": "登录时发生错误",
     "Create your recovery phrase": "创建您的恢复短语",
     "Seed Phrase": "种子短语",

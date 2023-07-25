@@ -6,6 +6,7 @@ export const signupUser = userData => {
   return async dispatch => {
     dispatch(signupRequest(userData));
     try {
+      console.log('userData: ', userData);
       const response = await axios.post(
         'https://hopeaccelerated-backend.herokuapp.com/api/v1/auth/register',
         JSON.stringify(userData),
@@ -15,7 +16,7 @@ export const signupUser = userData => {
           },
         },
       );
-
+      console.log('signup response ', response);
       await AsyncStorage.setItem('userId', response.data.data.profile.id);
       otpAPI(response.data.data.otp, response.data.data.phone);
 

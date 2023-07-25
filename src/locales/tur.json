@@ -76,6 +76,7 @@
     "Country": "Ülke",
     "OTP is not correct": "OTP doğru değil",
     "OTP Verified": "OTP Doğrulandı!",
+    "OTP_is_Required": "OTP gereklidir",
     "Error occurred while signing in": "Giriş yaparken hata oluştu",
     "Create your recovery phrase": "Kurtarma ifadenizi oluşturun",
     "Seed Phrase": "Tohum İfadesi",

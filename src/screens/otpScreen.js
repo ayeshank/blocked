@@ -20,37 +20,45 @@ const OTPScreen = ({verifyOTP}) => {
   const [loading, setLoading] = useState(false);
 
   const handleOTPVerification = async () => {
-    try {
-      setLoading(true);
-      const data = await verifyOTP(otpcode);
-      if (
-        data.error &&
-        data.error.response &&
-        data.error.response.status === 400
-      ) {
+    if (otpcode.length > 0) {
+      try {
+        setLoading(true);
+        const data = await verifyOTP(otpcode);
+        if (
+          data.error &&
+          data.error.response &&
+          data.error.response.status === 400
+        ) {
+          setLoading(false);
+          Snackbar.show({
+            backgroundColor: 'red',
+            text: t('OTP is not correct'),
+            duration: Snackbar.LENGTH_LONG,
+          });
+        } else {
+          Snackbar.show({
+            backgroundColor: 'green',
+            text: t('OTP Verified!'),
+            duration: Snackbar.LENGTH_LONG,
+          });
+          setLoading(false); // Set loading to false after successful registration
+          navigation.navigate('Verified');
+        }
+      } catch (error) {
         setLoading(false);
         Snackbar.show({
           backgroundColor: 'red',
-          text: 'OTP is not correct',
+          text: t('Error occurred while signing in'),
           duration: Snackbar.LENGTH_LONG,
         });
-      } else {
-        Snackbar.show({
-          backgroundColor: 'green',
-          text: 'OTP Verified!',
-          duration: Snackbar.LENGTH_LONG,
-        });
-        setLoading(false); // Set loading to false after successful registration
-        navigation.navigate('Verified');
+        // Handle error case if needed
       }
-    } catch (error) {
-      setLoading(false);
+    } else {
       Snackbar.show({
         backgroundColor: 'red',
-        text: 'Error occurred while signing in',
+        text: t('OTP_is_Required'),
         duration: Snackbar.LENGTH_LONG,
       });
-      // Handle error case if needed
     }
   };
 

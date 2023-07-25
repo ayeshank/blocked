@@ -76,6 +76,7 @@
     "Country": "ملک",
     "OTP_is_not_correct": "OTP درست نہیں ہے",
     "OTP_Verified": "OTP تصدیق ہوا!",
+    "OTP_is_Required": "OTP ضروری ہے",
     "Error_occurred_while_signing_in": "سائن ان کرتے وقت خرابی پیش آئی",
     "Create_your_recovery_phrase": "اپنا بحالی فقرہ بنائیں",
     "Seed_Phrase": "سیڈ فقرہ",

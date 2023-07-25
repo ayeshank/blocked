@@ -76,6 +76,7 @@
     "Schedule a live Remote Course": "Schedule a live Remote Course",
     "OTP_is_not_correct": "OTP is not correct",
     "OTP_Verified": "OTP Verified!",
+    "OTP_is_Required": "OTP is Required",
     "Error_occurred_while_signing_in": "Error occurred while signing in",
     "Create_your_recovery_phrase": "Create your recovery phrase",
     "Seed_Phrase": "Seed Phrase",

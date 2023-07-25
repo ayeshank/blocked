@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {View, Text, BackHandler} from 'react-native';
 import GlobalHeader from '../components/GlobalHeader';
 import styles from '../theme/theme';

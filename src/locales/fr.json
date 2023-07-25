@@ -76,6 +76,7 @@
     "Country": "Pays",
     "OTP is not correct": "Le OTP n'est pas correct",
     "OTP Verified": "OTP Vérifié !",
+    "OTP_is_Required": "OTP est requis",
     "Error occurred while signing in": "Une erreur s'est produite lors de la connexion",
     "Create your recovery phrase": "Créez votre phrase de récupération",
     "Seed Phrase": "Phrase de Sécurité",

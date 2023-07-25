@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {View, Text, BackHandler} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, BackHandler, StyleSheet} from 'react-native';
 import GlobalHeader from '../components/GlobalHeader';
 import styles from '../theme/theme';
 import Wrapper from '../components/wrapper';
@@ -30,17 +30,11 @@ const StudentSignupQuestion = () => {
     },
   ]);
   const [skillItems, setSkillItems] = useState([
-    {label: 'K-6', value: 'K-6'},
-    {label: '7-12', value: '7-12'},
-    {label: 'Some University', value: 'Some University'},
-    {
-      label: "Bachelor's First Degree",
-      value: "Bachelor's First Degree",
-    },
-    {
-      label: "Master's Second Degree (or Higher)",
-      value: "Master's Second Degree (or Higher)",
-    },
+    {label: 'Languages', value: 'Languages'},
+    {label: 'Mathematics', value: 'Mathematics'},
+    {label: 'Science', value: 'Science'},
+    {label: 'Social Studies', value: 'Social Studies'},
+    {label: 'Humanitites', value: 'Humanitites'},
   ]);
 
   const handleSubmit = () => {
@@ -85,7 +79,7 @@ const StudentSignupQuestion = () => {
           </Text>
           <View
             style={{
-              zIndex: 1000,
+              zIndex: 9999,
             }}>
             <DropDownPicker
               open={gradeOpen}
@@ -94,16 +88,14 @@ const StudentSignupQuestion = () => {
               setValue={setGradeValue}
               items={gradeItems}
               setItems={setGradeItems}
-              containerStyle={{height: 40}}
-              style={{
-                backgroundColor: 'white',
+              style={myStyles.dropdown}
+              dropDownStyle={myStyles.dropdown}
+              containerStyle={myStyles.dropdownContainerStyle}
+              itemStyle={myStyles.dropdownItemStyle}
+              dropDownContainerStyle={{
+                borderColor: 'transparent',
                 elevation: 3,
-                borderColor: 'white',
-                zIndex: 2,
               }}
-              dropDownStyle={{backgroundColor: '#fafafa'}}
-              itemStyle={{justifyContent: 'flex-start'}}
-              dropDownMaxHeight={150}
               placeholder={t('Select from list')}
             />
           </View>
@@ -119,20 +111,14 @@ const StudentSignupQuestion = () => {
               setValue={setSkillValue}
               items={skillItems}
               setItems={setSkillItems}
-              containerStyle={{height: 40}}
-              style={{
-                backgroundColor: 'white',
+              style={myStyles.dropdown}
+              dropDownStyle={myStyles.dropdown}
+              containerStyle={myStyles.dropdownContainerStyle}
+              itemStyle={myStyles.dropdownItemStyle}
+              dropDownContainerStyle={{
+                borderColor: 'transparent',
                 elevation: 3,
-                borderColor: 'transparent',
               }}
-              dropDownStyle={{
-                backgroundColor: '#fafafa',
-                borderColor: 'transparent',
-                borderRadius: 0,
-                zIndex: 1,
-              }}
-              itemStyle={{justifyContent: 'flex-start'}}
-              dropDownMaxHeight={150}
               placeholder="Select from list"
             />
           </View>
@@ -145,4 +131,36 @@ const StudentSignupQuestion = () => {
   );
 };
 
+const myStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  dropdownContainer: {
+    zIndex: 1,
+    marginBottom: 10,
+    backgroundColor: 'white',
+    elevation: 3,
+    borderColor: 'transparent',
+    position: 'relative', // Add relative positioning
+  },
+  dropdown: {
+    backgroundColor: 'white',
+    borderColor: 'transparent',
+    zIndex: 2,
+    position: 'absolute', // Add absolute positioning
+    top: 0,
+    left: 0,
+    right: 0,
+    borderRadius: 5,
+    elevation: 3,
+  },
+  dropdownContainerStyle: {
+    height: 40,
+    zIndex: 3,
+  },
+  dropdownItemStyle: {
+    justifyContent: 'flex-start',
+    color: 'yellow',
+  },
+});
 export default StudentSignupQuestion;
