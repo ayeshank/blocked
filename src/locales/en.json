@@ -97,6 +97,19 @@
     "BlockEd_Wallet": "BlockEd Wallet",
     "Recovery_Phrase": "Recovery Phrase",
     "Tokens You Have": "Tokens You Have",
-  "Your Recovery Phrase is": "Your Recovery Phrase is"
+  "Your Recovery Phrase is": "Your Recovery Phrase is",
+  "Mobile_Number": "Mobile Number",
+  "Male": "Male",
+  "Female": "Female",
+  "Select_Date": "Select Date",
+  "Enter_Teaching_Course_Speciality": "Enter your Teaching course(s) speciality",
+  "Upload_Certification_Documents": "Upload Certification Documents",
+  "Upload_Teaching_Certification_Degree": "Upload your teaching certification and degree of education",
+  "Upload_Education_Degree": "Upload Education Degree",
+  "Select_From_List": "Select from list",
+  "What_Skills_Do_You_Want_To_Study": "What skills do you want to study?",
+  "Logout_Confirmation": "Are you sure you want to logout?",
+  "Search_All_Courses": "Search All Courses",
+  "Highest_School_Grade_Completed": "Which is the highest school grade that you completed?"
 
   }
