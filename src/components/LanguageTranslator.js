@@ -14,6 +14,11 @@ import i18n from '../i18n';
 const languageData = [
   {code: 'en', name: 'English'},
   {code: 'ur', name: 'Urdu'},
+  {code: 'tur', name: 'Turkish'},
+  {code: 'fr', name: 'French'},
+  {code: 'spa', name: 'Spanish'},
+  {code: 'chi', name: 'Chinese'},
+  {code: 'hin', name: 'Hindi'},
   // Add more languages as needed
 ];
 

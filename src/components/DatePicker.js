@@ -2,11 +2,13 @@ import React, {useState, useEffect} from 'react';
 import {View, Animated} from 'react-native';
 import DatePicker from 'react-native-datepicker';
 import styles from '../theme/theme';
+import {useTranslation} from 'react-i18next';
 
 const DateSelect = () => {
   const [date, setDate] = useState();
   const animatedValue = new Animated.Value(0);
   const today = new Date();
+  const {t} = useTranslation();
 
   useEffect(() => {
     Animated.timing(animatedValue, {
@@ -28,7 +30,7 @@ const DateSelect = () => {
           }}
           date={date}
           mode="date"
-          placeholder="Select Date"
+          placeholder={t('Select Date')}
           format="DD/MM/YYYY"
           minDate="01-01-1980"
           maxDate={today}

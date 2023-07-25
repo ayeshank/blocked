@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {View} from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
 import styles from '../theme/theme';
+import {useTranslation} from 'react-i18next';
 
 const CustomPhoneInput = ({
   value,
@@ -9,6 +10,7 @@ const CustomPhoneInput = ({
   onChangeFormattedText,
   isSignUpScreen,
 }) => {
+  const {t} = useTranslation();
   return (
     <View
       style={
@@ -20,7 +22,7 @@ const CustomPhoneInput = ({
         defaultValue={value}
         defaultCode="PK"
         layout="first"
-        placeholder="Mobile Number"
+        placeholder={t('Mobile Number')}
         placeholderTextColor="black"
         onChangeText={onChangeText}
         onChangeFormattedText={onChangeFormattedText}

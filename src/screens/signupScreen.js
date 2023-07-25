@@ -208,7 +208,7 @@ const SignupScreen = ({
         </Text>
         <Text></Text>
         <InputText
-          placeholder="First Name"
+          placeholder={t('First Name')}
           value={firstName}
           onChangeText={text => setFirstName(text)}
           ref={firstNameRef}
@@ -218,7 +218,7 @@ const SignupScreen = ({
         />
         {errors.firstName && <ErrorField errortext={'Full_Name_is_required'} />}
         <InputText
-          placeholder="Last Name"
+          placeholder={t('Last Name')}
           value={lastName}
           onChangeText={text => setLastName(text)}
           ref={lastNameRef}
@@ -243,7 +243,7 @@ const SignupScreen = ({
         />
         {errors.phone && <ErrorField errortext={'Phone_Number_is_required'} />}
         <InputText
-          placeholder="Email"
+          placeholder={t('Email')}
           value={email}
           onChangeText={text => setEmail(text)}
           ref={emailRef}
@@ -265,7 +265,7 @@ const SignupScreen = ({
             }}>
             <TextInput
               style={{flex: 1, padding: 10, backgroundColor: 'white'}}
-              placeholder="Password"
+              placeholder={t('Password')}
               placeholderTextColor="black"
               color="black"
               value={password}
@@ -288,7 +288,7 @@ const SignupScreen = ({
         </View>
         {errors.password && <ErrorField errortext={'Password_Error'} />}
         <InputText
-          placeholder="Country"
+          placeholder={t('Country')}
           value={country}
           onChangeText={text => setCountry(text)}
           ref={countryRef}

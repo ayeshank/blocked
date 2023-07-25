@@ -368,7 +368,7 @@ export default styles = StyleSheet.create({
   },
   inputText: {
     color: 'black',
-    fontWeight: '700',
+    fontWeight: '400',
     backgroundColor: 'white',
     elevation: 3,
     paddingHorizontal: 10,

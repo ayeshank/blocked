@@ -86,14 +86,14 @@ const MessageScreen = ({fetchContacts}) => {
         }
         Snackbar.show({
           backgroundColor: 'green',
-          text: 'Contacts Fetched',
+          text: t('Failed to fetch Contacts'),
           duration: Snackbar.LENGTH_LONG,
         });
       }
     } catch (error) {
       Snackbar.show({
         backgroundColor: 'red',
-        text: 'Error occurred while fetching contacts',
+        text: t('Error occurred while fetching contacts'),
         duration: Snackbar.LENGTH_LONG,
       });
     } finally {

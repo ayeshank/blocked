@@ -86,7 +86,7 @@ const CourseCheckout = () => {
     dispatch(clearCart());
     Snackbar.show({
       backgroundColor: 'green',
-      text: 'Payment Successful',
+      text: t('Payment Successful'),
       duration: Snackbar.LENGTH_LONG,
     });
     navigation.navigate('MainMenu');

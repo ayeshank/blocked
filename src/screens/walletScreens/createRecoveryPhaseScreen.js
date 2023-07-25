@@ -32,13 +32,13 @@ const CreateRecoveryPhaseScreen = ({verifyOTP}) => {
         setLoading(false);
         Snackbar.show({
           backgroundColor: 'red',
-          text: 'OTP is not correct',
+          text: t('OTP is not correct'),
           duration: Snackbar.LENGTH_LONG,
         });
       } else {
         Snackbar.show({
           backgroundColor: 'green',
-          text: 'OTP Verified!',
+          text: t('OTP Verified!'),
           duration: Snackbar.LENGTH_LONG,
         });
         setLoading(false); // Set loading to false after successful registration
@@ -48,7 +48,7 @@ const CreateRecoveryPhaseScreen = ({verifyOTP}) => {
       setLoading(false);
       Snackbar.show({
         backgroundColor: 'red',
-        text: 'Error occurred while signing in',
+        text: t('Error occurred while signing in'),
         duration: Snackbar.LENGTH_LONG,
       });
       // Handle error case if needed
@@ -70,7 +70,7 @@ const CreateRecoveryPhaseScreen = ({verifyOTP}) => {
           alignSelf: 'center',
         }}>
         <InputText
-          placeholder="Seed Phrase"
+          placeholder={t('Seed Phrase')}
           value={seedPhrase}
           onChangeText={text => setSeedPhrase(text)}
           returnKeyType={'next'}

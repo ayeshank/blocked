@@ -4,10 +4,11 @@ import {forwardArrow, arrowDropdown, dropdown} from '../../theme/theme';
 import Wrapper from '../../components/wrapper';
 import WhiteButton from '../../components/CustomWhiteButton';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
 
 const TokenMenuScreen = () => {
   const navigation = useNavigation();
-
+  const {t} = useTranslation();
   return (
     <Wrapper>
       <View style={styles.container}>
@@ -17,22 +18,22 @@ const TokenMenuScreen = () => {
         </View>
         <View style={styles.buttonContainer}>
           <WhiteButton
-            name="Transfer Token"
+            name={t('Transfer Token')}
             icon={dropdown}
             onPress={() => navigation.navigate('TokenTransfer')}></WhiteButton>
           <Text></Text>
           <WhiteButton
-            name="Exchange Token"
+            name={t('Exchange Token')}
             icon={dropdown}
             onPress={() => console.log('hi')}></WhiteButton>
           <Text></Text>
           <WhiteButton
-            name="Send Token"
+            name={t('Send Token')}
             icon={dropdown}
             onPress={() => console.log('hi')}></WhiteButton>
           <Text></Text>
           <WhiteButton
-            name="Cash out Token"
+            name={t('Cash out Token')}
             icon={dropdown}
             onPress={() => console.log('hi')}></WhiteButton>
         </View>

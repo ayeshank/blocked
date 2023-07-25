@@ -104,7 +104,7 @@ const StudentSignupQuestion = () => {
               dropDownStyle={{backgroundColor: '#fafafa'}}
               itemStyle={{justifyContent: 'flex-start'}}
               dropDownMaxHeight={150}
-              placeholder="Select from list"
+              placeholder={t('Select from list')}
             />
           </View>
           <Text></Text>

@@ -19,14 +19,13 @@ const UploadKYCDocsScreen = () => {
     <Wrapper>
       <View style={myStyles.container}>
         <Text style={myStyles.text}>
-          In order that we can redeem your Tokens so that you can use it for
-          different purposes, please complete our Know Your Consumer (KYC)
-          steps. Have your Government ID and Proof of Address Documents ready
-          for these steps.
+          {t(
+            'In order that we can redeem your Tokens so that you can use it for different purposes, please complete our Know Your Consumer (KYC) steps. Have your Government ID and Proof of Address Documents ready for these steps.',
+          )}
         </Text>
-        <UploadInputField placeholder={'Upload Your Government ID'} />
+        <UploadInputField placeholder={t('Upload Your Government ID')} />
         <Text></Text>
-        <UploadInputField placeholder={'Upload Your Proof of Address'} />
+        <UploadInputField placeholder={t('Upload Your Proof of Address')} />
       </View>
       <View style={styles.bottomFixedComponent}>
         {/* {loading ? (

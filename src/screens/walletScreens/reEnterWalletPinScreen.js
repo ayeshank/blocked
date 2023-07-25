@@ -30,13 +30,13 @@ const ReEntereWalletPinScreen = ({verifyOTP}) => {
         setLoading(false);
         Snackbar.show({
           backgroundColor: 'red',
-          text: 'OTP is not correct',
+          text: t('OTP is not correct'),
           duration: Snackbar.LENGTH_LONG,
         });
       } else {
         Snackbar.show({
           backgroundColor: 'green',
-          text: 'OTP Verified!',
+          text: t('OTP Verified!'),
           duration: Snackbar.LENGTH_LONG,
         });
         setLoading(false); // Set loading to false after successful registration
@@ -46,7 +46,7 @@ const ReEntereWalletPinScreen = ({verifyOTP}) => {
       setLoading(false);
       Snackbar.show({
         backgroundColor: 'red',
-        text: 'Error occurred while signing in',
+        text: t('Error occurred while signing in'),
         duration: Snackbar.LENGTH_LONG,
       });
       // Handle error case if needed
@@ -57,10 +57,10 @@ const ReEntereWalletPinScreen = ({verifyOTP}) => {
     <Wrapper>
       <Text
         style={{...styles.mobileNumberText, fontSize: 15, fontWeight: '400'}}>
-        You are requested to create your
+        {t('You are requested to create your')}
       </Text>
       <Text style={{...styles.mobileNumberText, fontSize: 15, marginTop: 0}}>
-        Wallet PIN
+        {t('Wallet PIN')}
       </Text>
       <Text></Text>
       <View style={{marginVertical: 10}}>

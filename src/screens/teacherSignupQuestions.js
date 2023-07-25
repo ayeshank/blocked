@@ -60,7 +60,7 @@ const TeacherSignUpQuestion = () => {
             {t('Teaching_course(s)_speciality')}
           </Text>
           <CustomInputText
-            placeholder="Enter your Teaching course(s) speciality"
+            placeholder={t('Enter your Teaching course(s) speciality')}
             value={courses}
             onChangeText={text => setCourses(text)}
             returnKeyType={'next'}
@@ -70,9 +70,9 @@ const TeacherSignUpQuestion = () => {
           <Text style={styles.signUpSelectText}>
             {t('Upload_your_teaching_certification_and_degree_of_education')}
           </Text>
-          <UploadInputField placeholder={'Upload Certification Documents'} />
+          <UploadInputField placeholder={t('Upload Certification Documents')} />
           <Text></Text>
-          <UploadInputField placeholder={'Upload Education Degree'} />
+          <UploadInputField placeholder={t('Upload Education Degree')} />
         </View>
         <View style={styles.verificationButton}>
           <Button name={t('Submit')} onPress={() => handleSubmit()} />

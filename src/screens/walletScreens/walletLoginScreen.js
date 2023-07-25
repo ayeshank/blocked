@@ -24,7 +24,7 @@ const WalletLoginScreen = ({verifyOTP}) => {
     } else {
       Snackbar.show({
         backgroundColor: 'red',
-        text: 'Wallet PIN required',
+        text: t('Wallet PIN required'),
         duration: Snackbar.LENGTH_LONG,
       });
     }

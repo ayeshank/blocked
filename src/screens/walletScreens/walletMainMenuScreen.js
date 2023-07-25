@@ -33,20 +33,20 @@ const WalletMainMenu = () => {
       <View style={styles.container}>
         <View style={styles.buttonContainer}>
           <WhiteButton
-            name="BlockEd Wallet"
+            name={t('BlockEd Wallet')}
             icon={forwardArrow}
             onPress={() => navigation.navigate('UploadKYCDocs')}></WhiteButton>
           <Text></Text>
 
           <WhiteButton
-            name="Recovery Phrase"
+            name={t('Recovery Phrase')}
             icon={showRecoveryPhase ? arrowDropdown : forwardArrow}
             onPress={handleToggleRecoveryPhase}></WhiteButton>
           {/* <Text></Text> */}
           {showRecoveryPhase && (
             <View style={styles.recoveryContainer}>
               <Text style={styles.recoveryText}>
-                Your Recovery Phrase is : Beren
+                {t('Your Recovery Phrase is')} : Beren
               </Text>
             </View>
           )}
