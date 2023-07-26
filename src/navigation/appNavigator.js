@@ -26,6 +26,8 @@ import TodayAppointmentCoursesScreen from '../screens/todayAppointmentCoursesScr
 import WalletNavigator from './walletNavigator';
 import AvailableCoursesListScreen from '../screens/AvailableCoursesListScreen';
 import AllCoursesListScreen from '../screens/allCoursesListScreen';
+import walletLoginScreen from '../screens/walletScreens/walletLoginScreen';
+import walletLoadingScreen from '../screens/walletScreens/walletLoadingScreen';
 
 const Stack = createStackNavigator();
 
@@ -87,6 +89,11 @@ const AppNavigator = () => {
           name="Profile"
           component={ProfileScreen}
           options={{title: 'Profile', headerShown: false}}
+        />
+        <Stack.Screen
+          name="WalletLoading"
+          component={walletLoadingScreen}
+          options={{title: 'WalletLoading', headerShown: false}}
         />
         <Stack.Screen
           name="MessageScreen"

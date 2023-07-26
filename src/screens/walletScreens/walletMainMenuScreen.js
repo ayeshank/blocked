@@ -4,10 +4,14 @@ import {forwardArrow, arrowDropdown} from '../../theme/theme';
 import Wrapper from '../../components/wrapper';
 import WhiteButton from '../../components/CustomWhiteButton';
 import {useNavigation} from '@react-navigation/native';
+import {useTranslation} from 'react-i18next';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WalletMainMenu = () => {
   const navigation = useNavigation();
+  const {t} = useTranslation();
   const [showRecoveryPhase, setShowRecoveryPhase] = useState(false);
+  const [recoveryPhase, setRecoveryPhase] = useState('');
 
   const handleToggleRecoveryPhase = () => {
     setShowRecoveryPhase(!showRecoveryPhase);
@@ -28,6 +32,14 @@ const WalletMainMenu = () => {
     // Clean up the custom back button handler when the screen is unmounted
     return () => backHandler.remove();
   }, []);
+  useEffect(() => {
+    const fetchWalletPinCode = async () => {
+      const userRecoveryPhase = await AsyncStorage.getItem('walletSeedPhrase');
+      setRecoveryPhase(userRecoveryPhase);
+    };
+
+    fetchWalletPinCode();
+  });
   return (
     <Wrapper>
       <View style={styles.container}>
@@ -46,7 +58,7 @@ const WalletMainMenu = () => {
           {showRecoveryPhase && (
             <View style={styles.recoveryContainer}>
               <Text style={styles.recoveryText}>
-                {t('Your Recovery Phrase is')} : Beren
+                {t('Your Recovery Phrase is')} : {recoveryPhase}
               </Text>
             </View>
           )}

@@ -11,6 +11,9 @@ export const GET_PROFILE = 'GET_PROFILE';
 export const CONTACT_REQUEST = 'CONTACT_REQUEST';
 export const CONTACT_FAILURE = 'CONTACT_FAILURE';
 export const CONTACT_SUCCESS = 'CONTACT_SUCCESS';
+export const WALLET_AUTH_REQ = 'WALLET_AUTH_REQ';
+export const WALLET_AUTH_SUCCESS = 'WALLET_AUTH_SUCCESS';
+export const WALLET_AUTH_FAILURE = 'WALLET_AUTH_FAILURE';
 
 export const signupRequest = userData => ({
   type: SIGNUP_REQUEST,
@@ -71,6 +74,18 @@ export const contactsFailure = error => ({
   payload: error,
 });
 
+export const walletAuthRequest = () => ({
+  type: WALLET_AUTH_REQ,
+});
+
+export const walletAuthSuccess = () => ({
+  type: WALLET_AUTH_SUCCESS,
+});
+
+export const walletAuthFailure = error => ({
+  type: WALLET_AUTH_FAILURE,
+  payload: error,
+});
 export const CHANGE_LANGUAGE = 'CHANGE_LANGUAGE';
 
 export const changeLanguage = language => ({

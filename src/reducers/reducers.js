@@ -6,6 +6,7 @@ import loginReducer from './loginReducer';
 import otpReducer from './otpReducer';
 import contactsReducer from './contactsReducer';
 import cartReducer from './cartReducer';
+import walletReducer from './walletReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   device: deviceReducer,
   contacts: contactsReducer,
   cart: cartReducer,
+  wallet: walletReducer,
   // Add more reducers here if needed
 });
 

@@ -85,7 +85,7 @@ const CreateRecoveryPhaseScreen = ({verifyOTP}) => {
         ) : (
           <Button
             name={t('Submit')}
-            onPress={() => navigation.navigate('reEnterPinCode')}
+            onPress={() => navigation.navigate('WalletMainMenu')}
           />
         )}
       </View>

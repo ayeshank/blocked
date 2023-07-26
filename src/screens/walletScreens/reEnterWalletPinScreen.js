@@ -1,58 +1,82 @@
-import React, {useState, useRef} from 'react';
-import {View, Text} from 'react-native';
+import React, {useState, useRef, useEffect} from 'react';
+import {View, Text, BackHandler} from 'react-native';
 import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import Button from '../../components/Button';
 import SmoothPinCodeInput from 'react-native-smooth-pincode-input';
-import {verifyOTP} from '../../reducers/otpActions';
+import {createWalletPinCode} from '../../reducers/walletActions';
 import styles from '../../theme/theme';
 import Wrapper from '../../components/wrapper';
 import Snackbar from 'react-native-snackbar';
 import LoadingButton from '../../components/LoadingButton';
+import {useRoute} from '@react-navigation/native';
 
-const ReEntereWalletPinScreen = ({verifyOTP}) => {
-  const [otpcode, setOTPcode] = useState('');
+const ReEntereWalletPinScreen = ({createWalletPinCode}) => {
+  const route = useRoute();
+  const [rPinCode, setPinCOde] = useState('');
   const pinInput = useRef();
   const {t} = useTranslation();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
+  const {pinCode} = route.params;
 
-  const handleOTPVerification = async () => {
-    try {
-      setLoading(true);
-      const data = await verifyOTP(otpcode);
-      if (
-        data.error &&
-        data.error.response &&
-        data.error.response.status === 400
-      ) {
+  const handleCreateWalletPin = async () => {
+    if (pinCode == rPinCode) {
+      try {
+        setLoading(true);
+        const data = await createWalletPinCode(rPinCode);
+        if (
+          data.error &&
+          data.error.response &&
+          data.error.response.status === 400
+        ) {
+          setLoading(false);
+          Snackbar.show({
+            backgroundColor: 'red',
+            text: t('Wallet Pin Code Not Created'),
+            duration: Snackbar.LENGTH_LONG,
+          });
+        } else {
+          Snackbar.show({
+            backgroundColor: 'green',
+            text: t('Wallet Pin Code Created'),
+            duration: Snackbar.LENGTH_LONG,
+          });
+          setLoading(false); // Set loading to false after successful registration
+          navigation.navigate('CreateRecoveryPhase');
+        }
+      } catch (error) {
         setLoading(false);
+        console.log(error);
         Snackbar.show({
           backgroundColor: 'red',
-          text: t('OTP is not correct'),
+          text: t('Some Error Occured'),
           duration: Snackbar.LENGTH_LONG,
         });
-      } else {
-        Snackbar.show({
-          backgroundColor: 'green',
-          text: t('OTP Verified!'),
-          duration: Snackbar.LENGTH_LONG,
-        });
-        setLoading(false); // Set loading to false after successful registration
-        navigation.navigate('Verified');
+        // Handle error case if needed
       }
-    } catch (error) {
-      setLoading(false);
+    } else {
       Snackbar.show({
         backgroundColor: 'red',
-        text: t('Error occurred while signing in'),
+        text: t('Pin Code Doesnt Match'),
         duration: Snackbar.LENGTH_LONG,
       });
-      // Handle error case if needed
     }
   };
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate('MainMenu');
+      return true; // Return true to indicate that the back action is handled
+    };
 
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove(); // Clean up the event listener on component unmount
+  }, []);
   return (
     <Wrapper>
       <Text
@@ -95,8 +119,8 @@ const ReEntereWalletPinScreen = ({verifyOTP}) => {
             fontSize: 24,
             color: '#3FB65F',
           }}
-          value={otpcode}
-          onTextChange={otpcode => setOTPcode(otpcode)}
+          value={rPinCode}
+          onTextChange={rPinCode => setPinCOde(rPinCode)}
           containerStyle={{
             marginVertical: 12,
             justifyContent: 'center',
@@ -112,14 +136,11 @@ const ReEntereWalletPinScreen = ({verifyOTP}) => {
         {loading ? (
           <LoadingButton />
         ) : (
-          <Button
-            name={t('Next')}
-            onPress={() => navigation.navigate('reEnterPinCode')}
-          />
+          <Button name={t('Next')} onPress={() => handleCreateWalletPin()} />
         )}
       </View>
     </Wrapper>
   );
 };
 
-export default connect(null, {verifyOTP})(ReEntereWalletPinScreen);
+export default connect(null, {createWalletPinCode})(ReEntereWalletPinScreen);
