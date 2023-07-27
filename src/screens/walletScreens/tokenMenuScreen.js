@@ -46,7 +46,7 @@ const TokenMenuScreen = () => {
           <WhiteButton
             name={t('Transfer Token')}
             icon={dropdown}
-            onPress={() => navigation.navigate('TokenTransfer')}></WhiteButton>
+            onPress={() => navigation.navigate('AllUserDisplay')}></WhiteButton>
           <Text></Text>
           <WhiteButton
             name={t('Exchange Token')}

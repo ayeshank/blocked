@@ -49,7 +49,6 @@ export const walletAuthentication = () => {
         await AsyncStorage.setItem('isWalletPinSeedSet', 'false');
       }
       dispatch(walletAuthSuccess());
-      console.log('working');
     } catch (error) {
       console.log('error: ', error);
       dispatch(walletAuthFailure(error.message));
@@ -80,7 +79,6 @@ export const createWalletPinCode = code => {
       );
       console.log('response.data----:', response.data);
       dispatch(walletAuthSuccess());
-      console.log('working');
     } catch (error) {
       console.log('error: ', error.message);
       dispatch(walletAuthFailure(error.message));
@@ -111,7 +109,63 @@ export const createRecoveryPhase = text => {
       );
       console.log('response.data----:', response.data);
       dispatch(walletAuthSuccess());
-      console.log('working');
+    } catch (error) {
+      console.log('error: ', error.message);
+      dispatch(walletAuthFailure(error.message));
+      return {error}; // Return the error object
+    }
+  };
+};
+
+export const getAllUsers = () => {
+  return async dispatch => {
+    dispatch(walletAuthRequest());
+    try {
+      const apiToken = await AsyncStorage.getItem('sessionToken');
+      const response = await axios.get(
+        'https://hopeaccelerated-backend.herokuapp.com/api/v1/users',
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiToken}`,
+          },
+        },
+      );
+      console.log('response.data----:', response.data);
+      dispatch(walletAuthSuccess());
+      return response.data.data;
+    } catch (error) {
+      console.log('error: ', error.message);
+      dispatch(walletAuthFailure(error.message));
+      return {error}; // Return the error object
+    }
+  };
+};
+
+export const sendToken = (amount, receiverUserId) => {
+  return async dispatch => {
+    dispatch(walletAuthRequest());
+    try {
+      const apiToken = await AsyncStorage.getItem('sessionToken');
+      const appId = await AsyncStorage.getItem('walletAppId');
+      const response = await axios.post(
+        'https://hopeaccelerated-backend.herokuapp.com/api/v1/user/wallet/balance/send',
+        JSON.stringify({
+          balanceSent: amount,
+          balanceCurrency: 'USD',
+          senderAppId: appId,
+          toUserId: receiverUserId,
+        }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${apiToken}`,
+          },
+        },
+      );
+      console.log('response.data----:', response.data);
+      dispatch(walletAuthSuccess());
+      return response.data.data;
     } catch (error) {
       console.log('error: ', error.message);
       dispatch(walletAuthFailure(error.message));

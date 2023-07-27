@@ -13,6 +13,7 @@ import reEnterWalletPinScreen from '../screens/walletScreens/reEnterWalletPinScr
 import createRecoveryPhaseScreen from '../screens/walletScreens/createRecoveryPhaseScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Wrapper from '../components/wrapper';
+import allUserDisplayScreen from '../screens/walletScreens/allUserDisplayScreen';
 
 const Stack = createStackNavigator();
 
@@ -118,9 +119,31 @@ const WalletNavigator = () => {
         })}
       />
       <Stack.Screen
+        name="AllUserDisplay"
+        component={allUserDisplayScreen}
+        options={({navigation}) => ({
+          headerTitle: 'BlockEd Wallet',
+          headerTitleAlign: 'left',
+          headerLeft: () => (
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Image source={arrowWhite} style={styles.headerIconLeft} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <TouchableOpacity onPress={() => console.log('Menu pressed')}>
+              <Image source={dotsWhite} style={styles.headerIconRight} />
+            </TouchableOpacity>
+          ),
+          headerStyle: {
+            backgroundColor: '#3FB65F',
+          },
+          headerTintColor: 'white',
+        })}
+      />
+      <Stack.Screen
         name="TokenTransfer"
         component={TokenTransferScreen}
-        options={({navigation}) => ({
+        options={({navigation, route}) => ({
           headerTitle: 'BlockEd Wallet',
           headerTitleAlign: 'left',
           headerLeft: () => (
