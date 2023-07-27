@@ -1,59 +1,67 @@
-import React, {useState, useRef} from 'react';
-import {View, Text} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {View, Text, BackHandler} from 'react-native';
 import {connect} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import Button from '../../components/Button';
 import InputText from '../../components/CustomInputText';
-import {verifyOTP} from '../../reducers/otpActions';
+import {createRecoveryPhase} from '../../reducers/walletActions';
 import styles from '../../theme/theme';
 import Wrapper from '../../components/wrapper';
 import Snackbar from 'react-native-snackbar';
 import LoadingButton from '../../components/LoadingButton';
 import ErrorField from '../../components/CustomError';
 
-const CreateRecoveryPhaseScreen = ({verifyOTP}) => {
+const CreateRecoveryPhaseScreen = ({createRecoveryPhase}) => {
   const [seedPhrase, setSeedPhrase] = useState('');
   const [seedError, setSeedError] = useState('');
-  const pinInput = useRef();
   const {t} = useTranslation();
   const navigation = useNavigation();
   const [loading, setLoading] = useState(false);
 
-  const handleOTPVerification = async () => {
-    try {
-      setLoading(true);
-      const data = await verifyOTP(otpcode);
-      if (
-        data.error &&
-        data.error.response &&
-        data.error.response.status === 400
-      ) {
-        setLoading(false);
-        Snackbar.show({
-          backgroundColor: 'red',
-          text: t('OTP is not correct'),
-          duration: Snackbar.LENGTH_LONG,
-        });
-      } else {
+  const handleCreateRecoveryPhase = async () => {
+    if (seedPhrase) {
+      try {
+        setLoading(true);
+        const data = await createRecoveryPhase(seedPhrase);
         Snackbar.show({
           backgroundColor: 'green',
-          text: t('OTP Verified!'),
+          text: t('Seed Phrase Created'),
           duration: Snackbar.LENGTH_LONG,
         });
         setLoading(false); // Set loading to false after successful registration
-        navigation.navigate('Verified');
+        navigation.navigate('WalletMainMenu');
+      } catch (error) {
+        setLoading(false);
+        console.log('error', error);
+        Snackbar.show({
+          backgroundColor: 'red',
+          text: t('Some Error Occured'),
+          duration: Snackbar.LENGTH_LONG,
+        });
+        // Handle error case if needed
       }
-    } catch (error) {
-      setLoading(false);
+    } else {
       Snackbar.show({
         backgroundColor: 'red',
-        text: t('Error occurred while signing in'),
+        text: t('Seed Phrase cannot be empty'),
         duration: Snackbar.LENGTH_LONG,
       });
-      // Handle error case if needed
     }
   };
+  useEffect(() => {
+    const backAction = () => {
+      navigation.navigate('MainMenu');
+      return true; // Return true to indicate that the back action is handled
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction,
+    );
+
+    return () => backHandler.remove(); // Clean up the event listener on component unmount
+  }, []);
 
   return (
     <Wrapper>
@@ -85,7 +93,7 @@ const CreateRecoveryPhaseScreen = ({verifyOTP}) => {
         ) : (
           <Button
             name={t('Submit')}
-            onPress={() => navigation.navigate('WalletMainMenu')}
+            onPress={() => handleCreateRecoveryPhase()}
           />
         )}
       </View>
@@ -93,4 +101,4 @@ const CreateRecoveryPhaseScreen = ({verifyOTP}) => {
   );
 };
 
-export default connect(null, {verifyOTP})(CreateRecoveryPhaseScreen);
+export default connect(null, {createRecoveryPhase})(CreateRecoveryPhaseScreen);

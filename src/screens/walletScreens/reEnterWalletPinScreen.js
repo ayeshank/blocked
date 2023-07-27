@@ -25,30 +25,17 @@ const ReEntereWalletPinScreen = ({createWalletPinCode}) => {
     if (pinCode == rPinCode) {
       try {
         setLoading(true);
+        console.log('rPinCode', rPinCode);
         const data = await createWalletPinCode(rPinCode);
-        if (
-          data.error &&
-          data.error.response &&
-          data.error.response.status === 400
-        ) {
-          setLoading(false);
-          Snackbar.show({
-            backgroundColor: 'red',
-            text: t('Wallet Pin Code Not Created'),
-            duration: Snackbar.LENGTH_LONG,
-          });
-        } else {
-          Snackbar.show({
-            backgroundColor: 'green',
-            text: t('Wallet Pin Code Created'),
-            duration: Snackbar.LENGTH_LONG,
-          });
-          setLoading(false); // Set loading to false after successful registration
-          navigation.navigate('CreateRecoveryPhase');
-        }
+        Snackbar.show({
+          backgroundColor: 'green',
+          text: t('Wallet Pin Code Created'),
+          duration: Snackbar.LENGTH_LONG,
+        });
+        setLoading(false); // Set loading to false after successful registration
+        navigation.navigate('CreateRecoveryPhase');
       } catch (error) {
         setLoading(false);
-        console.log(error);
         Snackbar.show({
           backgroundColor: 'red',
           text: t('Some Error Occured'),

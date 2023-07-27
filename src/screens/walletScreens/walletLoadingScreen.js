@@ -21,7 +21,7 @@ const WalletLoadingScreen = ({walletAuthentication}) => {
       if (isUserWalletCreated == 'true') {
         navigation.navigate('WalletStack');
       } else {
-        navigation.navigate('MainMenu');
+        navigation.navigate('WalletStack');
       }
     } catch (error) {
       console.log('error: ', error);
