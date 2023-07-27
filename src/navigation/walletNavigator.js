@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import styles from '../theme/theme';
 import UploadKYCDocsScreen from '../screens/walletScreens/uploadKYCDocsScreen';
-import {TouchableOpacity, Image} from 'react-native';
+import {TouchableOpacity, Image, View, ActivityIndicator} from 'react-native';
 import {arrowWhite, dotsWhite} from '../theme/theme';
 import WalletMainMenu from '../screens/walletScreens/walletMainMenuScreen';
 import TokenMenuScreen from '../screens/walletScreens/tokenMenuScreen';
@@ -12,33 +12,42 @@ import createWalletPinScreen from '../screens/walletScreens/createWalletPinScree
 import reEnterWalletPinScreen from '../screens/walletScreens/reEnterWalletPinScreen';
 import createRecoveryPhaseScreen from '../screens/walletScreens/createRecoveryPhaseScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Wrapper from '../components/wrapper';
 
 const Stack = createStackNavigator();
 
 const WalletNavigator = () => {
-  const [isWalletSet, setWallet] = useState(false);
+  const [isWalletSet, setWallet] = useState(null);
+
   const handleWalletAuthentication = async () => {
     try {
       const isUserWalletCreated = await AsyncStorage.getItem(
         'isWalletPinSeedSet',
       );
-      if (isUserWalletCreated == 'true') {
+      if (isUserWalletCreated === 'true') {
         setWallet(true);
       } else {
         setWallet(false);
       }
     } catch (error) {
-      Snackbar.show({
-        backgroundColor: 'red',
-        text: 'Error occurred while fetching user wallet detail',
-        duration: Snackbar.LENGTH_LONG,
-      });
+      console.log('error: ', error);
     }
   };
 
   useEffect(() => {
     handleWalletAuthentication();
-  });
+  }, []);
+
+  if (isWalletSet === null) {
+    return (
+      <Wrapper>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color="#3FB65F" />
+        </View>
+      </Wrapper>
+    );
+  }
+
   return (
     <Stack.Navigator
       initialRouteName={isWalletSet ? 'WalletLogin' : 'CreateWalletPin'}>

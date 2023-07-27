@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   BackHandler,
+  ActivityIndicator,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
@@ -15,6 +16,7 @@ import {userIcon} from '../theme/theme';
 import {fetchContacts} from '../reducers/contactsAction.js';
 import Snackbar from 'react-native-snackbar';
 import {connect} from 'react-redux';
+import Wrapper from '../components/wrapper';
 
 const MessageScreen = ({fetchContacts}) => {
   const navigation = useNavigation();
@@ -86,7 +88,7 @@ const MessageScreen = ({fetchContacts}) => {
         }
         Snackbar.show({
           backgroundColor: 'green',
-          text: t('Failed to fetch Contacts'),
+          text: t('Successfully Fetched Contacts'),
           duration: Snackbar.LENGTH_LONG,
         });
       }
@@ -134,11 +136,11 @@ const MessageScreen = ({fetchContacts}) => {
   }, []);
   if (loading) {
     return (
-      <View style={styles.container}>
-        <View style={styles.loadingContainer}>
-          <Text style={styles.loadingText}>Loading...</Text>
+      <Wrapper>
+        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+          <ActivityIndicator size="large" color="#3FB65F" />
         </View>
-      </View>
+      </Wrapper>
     );
   }
 

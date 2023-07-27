@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Text, BackHandler} from 'react-native';
+import {View, Text, BackHandler, ActivityIndicator} from 'react-native';
 import Wrapper from '../../components/wrapper';
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
@@ -52,7 +52,9 @@ const WalletLoadingScreen = ({walletAuthentication}) => {
 
   return (
     <Wrapper>
-      <Text>Loading....</Text>
+      <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+        <ActivityIndicator size="large" color="#3FB65F" />
+      </View>
     </Wrapper>
   );
 };
