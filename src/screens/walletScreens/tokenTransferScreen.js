@@ -17,9 +17,9 @@ const TokenTransferScreen = ({route, sendToken}) => {
   const navigation = useNavigation();
   const {t} = useTranslation();
   const [walletBalance, setUserWalletBalance] = useState('');
-  // State to manage the modal visibility
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [snackbarVisible, setSnackbarVisible] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState('');
   // Function to handle opening the modal
   const openButtonModal = () => {
     setModalVisible(true);
@@ -30,53 +30,46 @@ const TokenTransferScreen = ({route, sendToken}) => {
     setModalVisible(false);
   };
 
-  // Function to handle confirming the amount in the modal
   const handleConfirmAmount = amount => {
     setSentAmount(amount);
     closeModal();
-    handleTokenSentAmount(); // Call the original function to handle token transfer
-  };
-  const handleTokenSentAmount = async () => {
-    console.log('walletBalance:', walletBalance);
-    console.log('sentAmount:', sentAmount);
-    console.log('sentAmount3:', parseFloat(sentAmount));
-    console.log('sentAmount34:', parseFloat(walletBalance));
-    console.log(
-      'parseFloat(sentAmount) <= parseFloat(walletBalance) ',
-      parseFloat(sentAmount) <= parseFloat(walletBalance),
-    );
-    if (parseFloat(sentAmount) <= parseFloat(walletBalance)) {
-      try {
-        console.log('sentAmount3:', parseFloat(sentAmount));
-        console.log('sentAmount34:', parseFloat(walletBalance));
-        const data = await sendToken(sentAmount, user._id);
-        Snackbar.show({
-          backgroundColor: 'green',
-          text: t('Token Sent Successfully'),
-          duration: Snackbar.LENGTH_LONG,
-        });
-      } catch (error) {
-        Snackbar.show({
-          backgroundColor: 'red',
-          text: t('Error occurred while sending token'),
-          duration: Snackbar.LENGTH_LONG,
-        });
-      }
-    } else {
-      Snackbar.show({
-        backgroundColor: 'red',
-        text: t('In-Sufficient balance in the Wallet'),
-        duration: Snackbar.LENGTH_LONG,
-      });
-    }
   };
 
+  const handleTokenSentAmount = async () => {
+    if (parseFloat(sentAmount) <= parseFloat(walletBalance)) {
+      try {
+        const data = await sendToken(sentAmount, user._id);
+        setSnackbarMessage(t('Token Sent Successfully'));
+        setSnackbarVisible(true);
+      } catch (error) {
+        setSnackbarMessage(t('Error occurred while sending token'));
+        setSnackbarVisible(true);
+      }
+    } else {
+      setSnackbarMessage(t('Error! In-Sufficient balance in the Wallet'));
+      setSnackbarVisible(true);
+    }
+  };
+  useEffect(() => {
+    if (sentAmount > 0) {
+      handleTokenSentAmount();
+    }
+  }, [sentAmount]);
+  useEffect(() => {
+    if (snackbarVisible) {
+      Snackbar.show({
+        backgroundColor: snackbarMessage.includes('Error') ? 'red' : 'green',
+        text: snackbarMessage,
+        duration: Snackbar.LENGTH_LONG,
+      });
+      setSnackbarVisible(false);
+    }
+  }, [snackbarVisible, snackbarMessage]);
   useEffect(() => {
     const fetchWalletPinCode = async () => {
       const userWalletBalance = await AsyncStorage.getItem('walletBalance');
       setUserWalletBalance(userWalletBalance);
     };
-
     fetchWalletPinCode();
   }, []);
   const handleBackButton = () => {

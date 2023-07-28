@@ -56,7 +56,7 @@ const TokenMenuScreen = () => {
           <WhiteButton
             name={t('Send Token')}
             icon={dropdown}
-            onPress={() => console.log('hi')}></WhiteButton>
+            onPress={() => navigation.navigate('AllUserDisplay')}></WhiteButton>
           <Text></Text>
           <WhiteButton
             name={t('Cash out Token')}

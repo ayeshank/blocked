@@ -8,33 +8,27 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Snackbar from 'react-native-snackbar';
+import ErrorField from './CustomError';
 
 const TokenTransferModal = ({visible, onClose, onConfirm}) => {
   const [amount, setAmount] = useState('');
-  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const handleConfirm = () => {
     if (!amount || parseFloat(amount) === '') {
-      setShowSnackbar(true);
+      setShowError(true);
     } else {
       onConfirm(parseFloat(amount));
       setAmount('');
+      setShowError(false);
     }
   };
-
-  useEffect(() => {
-    if (showSnackbar) {
-      Snackbar.show({
-        backgroundColor: 'red',
-        text: 'Amount should not be empty',
-        duration: Snackbar.LENGTH_LONG,
-      });
-      setShowSnackbar(false);
-    }
-  }, [showSnackbar]);
-
+  const handleClose = () => {
+    onClose();
+    setShowError(false);
+  };
   return (
-    <Modal animationType="slide" transparent={true} visible={visible}>
+    <Modal animationType="fade" transparent={true} visible={visible}>
       <View style={styles.modalContainer}>
         <View style={styles.modalContent}>
           <Text style={styles.modalText}>
@@ -47,8 +41,21 @@ const TokenTransferModal = ({visible, onClose, onConfirm}) => {
             onChangeText={setAmount}
             keyboardType="numeric"
           />
+          {showError && (
+            <View style={{textAlign: 'left'}}>
+              <Text
+                style={{
+                  color: 'red',
+                  fontSize: 13,
+                  marginBottom: 10,
+                  textAlign: 'left',
+                }}>
+                Amount cannot be empty or 0
+              </Text>
+            </View>
+          )}
           <View style={styles.modalButtonsContainer}>
-            <TouchableOpacity onPress={onClose}>
+            <TouchableOpacity onPress={handleClose}>
               <Text style={styles.modalButton}>Cancel</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={handleConfirm}>
