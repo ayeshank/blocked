@@ -21,7 +21,7 @@ const TokenMenuScreen = () => {
   });
   const handleBackButton = () => {
     // Navigate back to the MainMenu screen
-    navigation.goBack();
+    navigation.navigate('WalletMainMenu');
     return true; // Return true to indicate that the back action is handled
   };
 

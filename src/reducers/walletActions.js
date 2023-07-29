@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {getProfile} from './otpActions';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   walletAuthRequest,
@@ -20,7 +21,7 @@ export const walletAuthentication = () => {
           },
         },
       );
-      console.log('response.data----:', response.data.data);
+      console.log('Walletresponse.data----:', response.data.data);
 
       if (
         response.data.data.isPinCodeSet == true &&
@@ -172,6 +173,35 @@ export const sendToken = (amount, receiverUserId) => {
           parseFloat(currentUserBalance) - parseFloat(amount),
         );
       }
+      dispatch(walletAuthSuccess());
+      return response.data.data;
+    } catch (error) {
+      console.log('errorAction: ', error.message);
+      dispatch(walletAuthFailure(error.message));
+      return {error}; // Return the error object
+    }
+  };
+};
+
+export const uploadKYCDocs = body => {
+  return async dispatch => {
+    dispatch(walletAuthRequest());
+    try {
+      const apiToken = await AsyncStorage.getItem('sessionToken');
+      const response = await axios.post(
+        'https://hopeaccelerated-backend.herokuapp.com/api/v1/attachment/upload/kyc',
+        body,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${apiToken}`,
+          },
+        },
+        // redirect: "follow"
+      );
+
+      console.log('KYC response.data.data----:', response.data);
+      await getProfile();
       dispatch(walletAuthSuccess());
       return response.data.data;
     } catch (error) {

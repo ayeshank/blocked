@@ -9,30 +9,36 @@ import {
 import DocumentPicker from 'react-native-document-picker';
 import {docIcon} from '../theme/theme';
 
-const UploadInputField = ({placeholder, iconImage, fileTypes}) => {
+const UploadInputField = ({placeholder, action, onFileSelected}) => {
   const handleUpload = async () => {
     try {
       const res = await DocumentPicker.pick({
-        type: [DocumentPicker.types.images, DocumentPicker.types.pdf],
+        type: [DocumentPicker.types.allFiles],
       });
 
-      // Handle the selected file here
-    } catch (error) {
-      if (DocumentPicker.isCancel(error)) {
-        console.log('User canceled the file selection');
-      } else {
-        console.log('Error:', error);
+      // Pass the selected file data back to the parent component
+      if (onFileSelected) {
+        onFileSelected(action, {
+          uri: res[0]?.uri,
+          name: res[0]?.name,
+          type: res[0]?.type,
+          size: res[0]?.size,
+        });
+        console.log('res', res);
+      }
+    } catch (err) {
+      // Handle error if needed
+      if (!DocumentPicker.isCancel(err)) {
+        console.log('Error:', err);
+        // Show an error message to the user
       }
     }
   };
-
   return (
-    <View style={styles.container}>
+    <TouchableOpacity onPress={handleUpload} style={styles.container}>
       <TextInput style={styles.input} value={placeholder} editable={false} />
-      <TouchableOpacity onPress={() => handleUpload}>
-        <Image source={docIcon} style={styles.icon} />
-      </TouchableOpacity>
-    </View>
+      <Image source={docIcon} />
+    </TouchableOpacity>
   );
 };
 
@@ -51,11 +57,6 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     color: 'black',
     borderRadius: 2,
-  },
-  icon: {
-    // width: 20,
-    // height: 20,
-    // marginLeft: 10,
   },
 });
 

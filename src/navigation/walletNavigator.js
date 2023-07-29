@@ -103,7 +103,8 @@ const WalletNavigator = () => {
           headerTitle: 'BlockEd Wallet',
           headerTitleAlign: 'left',
           headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.goBack()}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('WalletMainMenu')}>
               <Image source={arrowWhite} style={styles.headerIconLeft} />
             </TouchableOpacity>
           ),

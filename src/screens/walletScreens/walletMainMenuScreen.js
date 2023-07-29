@@ -12,6 +12,7 @@ const WalletMainMenu = () => {
   const {t} = useTranslation();
   const [showRecoveryPhase, setShowRecoveryPhase] = useState(false);
   const [recoveryPhase, setRecoveryPhase] = useState('');
+  const [isKYCDocSubmitted, setIsKYCDocsSubmitted] = useState('false');
 
   const handleToggleRecoveryPhase = () => {
     setShowRecoveryPhase(!showRecoveryPhase);
@@ -36,6 +37,9 @@ const WalletMainMenu = () => {
     const fetchWalletPinCode = async () => {
       const userRecoveryPhase = await AsyncStorage.getItem('walletSeedPhrase');
       setRecoveryPhase(userRecoveryPhase);
+      const KYCdocsSubmitted = await AsyncStorage.getItem('isKycDocSubmitted');
+      setIsKYCDocsSubmitted(KYCdocsSubmitted);
+      console.log('MainMenu isKYCDocSubmitted: ', isKYCDocSubmitted);
     };
 
     fetchWalletPinCode();
@@ -47,7 +51,11 @@ const WalletMainMenu = () => {
           <WhiteButton
             name={t('BlockEd Wallet')}
             icon={forwardArrow}
-            onPress={() => navigation.navigate('UploadKYCDocs')}></WhiteButton>
+            onPress={() => {
+              isKYCDocSubmitted == 'false'
+                ? navigation.navigate('TokenMenu')
+                : navigation.navigate('UploadKYCDocs');
+            }}></WhiteButton>
           <Text></Text>
 
           <WhiteButton

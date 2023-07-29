@@ -66,6 +66,14 @@ export const getProfile = async () => {
     await AsyncStorage.setItem('userPhone', response.data.data.user.phone);
     await AsyncStorage.setItem('userQRcode', response.data.data.user.qrcode);
     await AsyncStorage.setItem('user_id', response.data.data.profile._id);
+    await AsyncStorage.setItem(
+      'isKycDocSubmitted',
+      response.data.data.user.isKycDocSubmitted.toString(),
+    );
+    await AsyncStorage.setItem(
+      'isKycDocVerified',
+      response.data.data.user.isKycDocVerified.toString(),
+    );
     return response.data; // Return the response data
   } catch (error) {
     console.log('error: ', error);
