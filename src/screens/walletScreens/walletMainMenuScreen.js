@@ -52,7 +52,7 @@ const WalletMainMenu = () => {
             name={t('BlockEd Wallet')}
             icon={forwardArrow}
             onPress={() => {
-              isKYCDocSubmitted == 'false'
+              isKYCDocSubmitted == 'true'
                 ? navigation.navigate('TokenMenu')
                 : navigation.navigate('UploadKYCDocs');
             }}></WhiteButton>
