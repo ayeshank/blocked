@@ -1,4 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit';
+import Snackbar from 'react-native-snackbar';
 
 const cartSlice = createSlice({
   name: 'cart',
@@ -13,6 +14,12 @@ const cartSlice = createSlice({
       );
       if (!existingItem) {
         state.items.push(newItem);
+      } else {
+        Snackbar.show({
+          backgroundColor: 'red',
+          text: 'Item Already Exist In Cart',
+          duration: Snackbar.LENGTH_LONG,
+        });
       }
     },
     removeFromCart(state, action) {
@@ -20,7 +27,20 @@ const cartSlice = createSlice({
       state.items = state.items.filter(item => item.itemId !== itemId);
     },
     clearCart(state) {
-      state.items = [];
+      if (state.items.length > 0) {
+        state.items = [];
+        Snackbar.show({
+          backgroundColor: 'green',
+          text: t('Payment Successful'),
+          duration: Snackbar.LENGTH_LONG,
+        });
+      } else {
+        Snackbar.show({
+          backgroundColor: 'red',
+          text: 'Your Cart is empty',
+          duration: Snackbar.LENGTH_LONG,
+        });
+      }
     },
   },
 });

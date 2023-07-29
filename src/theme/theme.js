@@ -16,6 +16,7 @@ export const dots = require('../../assets/Screen7b/dots.png');
 export const forwardArrow = require('../../assets/Screen7b/forwardArrow.png');
 export const arrowWhite = require('../../assets/Screen7b/arrowWhite.png');
 export const arrowDropdown = require('../../assets/Screen7b/arrowDropdown.png');
+export const close = require('../../assets/Screen7b/close.png');
 export const dotsWhite = require('../../assets/Screen7b/dotsWhite.png');
 export const sendIcon = require('../../assets/Screen7b/sendIcon.png');
 export const micIcon = require('../../assets/Screen7b/mic.png');

@@ -14,6 +14,7 @@ import {
   mathCourseLogo,
   uploadIcon,
   dropdown2,
+  close,
 } from '../theme/theme';
 import Wrapper from '../components/wrapper';
 import Button from '../components/Button';
@@ -52,7 +53,7 @@ const Card = ({itemId, name, price, imageUrl}) => {
           <TouchableOpacity
             style={styles.dropdownButton}
             onPress={() => handleDropdownPress(itemId)}>
-            <Image source={dropdown2} />
+            <Image source={close} style={styles.iconCross} />
           </TouchableOpacity>
         </View>
       </View>
@@ -81,14 +82,25 @@ const CourseCheckout = () => {
     },
   ];
 
+  const getTotalPrice = () => {
+    let totalPrice = 0;
+    for (const course of cartItems) {
+      const price = parseFloat(course.price.substring(1));
+      totalPrice += price;
+    }
+    return totalPrice.toFixed(2);
+  };
+
+  const totalPrice = getTotalPrice();
+
   const handleWalletPayment = () => {
     console.log('clearcart');
     dispatch(clearCart());
-    Snackbar.show({
-      backgroundColor: 'green',
-      text: t('Payment Successful'),
-      duration: Snackbar.LENGTH_LONG,
-    });
+    // Snackbar.show({
+    //   backgroundColor: 'green',
+    //   text: t('Payment Successful'),
+    //   duration: Snackbar.LENGTH_LONG,
+    // });
     navigation.navigate('MainMenu');
   };
 
@@ -138,7 +150,7 @@ const CourseCheckout = () => {
         </TouchableOpacity>
         <View style={styles.totalDetailContainer}>
           <Text style={styles.totalText}>{t('Total')}</Text>
-          <Text style={styles.totalPrice}>$105.5</Text>
+          <Text style={styles.totalPrice}>${totalPrice}</Text>
         </View>
         <View style={styles.totalDetailContainer}>
           <Text style={styles.totalText}>
@@ -202,6 +214,13 @@ const styles = StyleSheet.create({
     fontSize: 15,
     marginBottom: 8,
     marginRight: 8,
+  },
+  iconCross: {
+    marginBottom: 8,
+    marginTop: -5,
+    width: 12,
+    height: 12,
+    // marginRight: 8,
   },
   dropdownButton: {
     flex: 1,
