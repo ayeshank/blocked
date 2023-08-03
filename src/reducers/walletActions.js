@@ -124,7 +124,7 @@ export const getAllUsers = () => {
     try {
       const apiToken = await AsyncStorage.getItem('sessionToken');
       const response = await axios.get(
-        'https://hopeaccelerated-backend.herokuapp.com/api/v1/users',
+        'https://hopeaccelerated-backend.herokuapp.com/api/v1/users?limit=30',
         {
           headers: {
             'Content-Type': 'application/json',

@@ -14,61 +14,102 @@ import {paperClip, micIcon, sendIcon} from '../theme/theme';
 import io from 'socket.io-client';
 
 const ChatScreen = ({route, navigation}) => {
-  //   const {name, userId} = route.params;
+  const {contact} = route.params;
   const [message, setMessage] = useState('');
   const [chatMessages, setChatMessages] = useState([]);
   const user = useSelector(state => state?.wallet?.profile?.user);
   const [userId, setUserId] = useState('');
-  //   const socket = io('https://hopeaccelerated-chat.herokuapp.com', {
-  //     transports: ['websocket'],
-  //     jsonp: false,
-  //     forceNew: true,
-  //   });
+  const socket = io('https://hopeaccelerated-chat.herokuapp.com', {
+    transports: ['websocket'],
+    jsonp: false,
+    forceNew: true,
+  });
 
-  //   useEffect(() => {
-  //     socket.emit('get_conversation_messages_list', {
-  //       receiverId: user?._id,
-  //       userId: userId,
-  //       limit: 100,
-  //       skip: 1,
-  //       sortOrder: 'asc',
-  //     });
+  useEffect(() => {
+    // Fetch the user ID and store it in the state
+    fetchUserId();
 
-  //     socket.on('receive_conversation_messages_list', data => {
-  //       setChatMessages(data);
-  //     });
+    // Connect to the server and join the chat room using Socket.io
+    socket.connect();
 
-  //     return () => {
-  //       socket.disconnect();
-  //     };
-  //   }, []);
+    // // Handle incoming messages from the server
+    // socket.on('message', newMessage => {
+    //   setChatMessages(previousMessages =>
+    //     GiftedChat.append(previousMessages, [newMessage]),
+    //   );
+    // });
+    // socket.on('receive_conversation_messages_list', data => {
+    //   // console.log(`Received Conversation Messages List `,data);
+    //   setChatMessages(data);
+    //   // setRcvdMsg(JSON.stringify(data))
+    // });
 
-  //future implementatuion
-  // const onSend = (messages = []) => {
-  //   socket.emit('send_message', {
-  //     senderId: user?._id,
-  //     receiverIds: [userId],
-  //     message: {
-  //       content: messages[0].text,
-  //       qrCode: 'xxxxxxxxxxxxxx',
-  //       attachmentIds: [],
-  //     },
-  //   });
+    socket.on('receive_conversation_messages_list', data => {
+      try {
+        console.log(
+          `Received Conversation Messages List ${JSON.stringify(data)}`,
+        );
+        // Assuming data is an array of messages
+        setChatMessages([...data]);
+      } catch (error) {
+        console.error('Error handling received data:', error);
+      }
+    });
 
-  //   setChatMessages(previousMessages =>
-  //     GiftedChat.append(previousMessages, messages),
-  //   );
-  // };
+    // Listen for send_message_success event to handle the acknowledgment
+    socket.on('send_message_success', acknowledgmentData => {
+      console.log('Message sent to server:', acknowledgmentData);
+      // You can update your UI or handle anything related to successful message sending here
+    });
+
+    // Listen for send_message_error event to handle any errors
+    socket.on('send_message_error', err => {
+      console.warn('Error sending message:', err);
+      // You can show an error message to the user or handle any error scenarios here
+    });
+
+    // socket.on('receive_message', data => {
+    //   console.warn(`Received Message ${JSON.stringify(data)}`);
+    //   setRcvdMsg(data.message.content);
+    // });
+
+    socket.on('request_payload_error', data => {
+      console.warn(`Request Payload Error ${JSON.stringify(data)}`);
+    });
+
+    socket.on('receive_user_is_typing', data => {
+      console.warn(`This User is typing ${JSON.stringify(data)}`);
+    });
+
+    socket.on('receive_read_message', data => {
+      console.warn(`Message is read by this User ${JSON.stringify(data)}`);
+    });
+
+    socket.on('receive_seen_message', data => {
+      console.warn(`Message is seen by this User ${JSON.stringify(data)}`);
+    });
+
+    socket.on('joi_validation_exception', data => {
+      console.warn(`Joi Validation Exception ${JSON.stringify(data)}`);
+    });
+
+    // Clean up the socket connection when the component unmounts
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const fetchUserId = async () => {
-    var getUser = await AsyncStorage.getItem('user_id');
+    // Fetch the user ID from AsyncStorage or any other storage mechanism
+    const getUser = await AsyncStorage.getItem('user_id');
     setUserId(getUser);
   };
+
   const onSend = (messages = []) => {
+    console.log('workingOnSend');
     const newMessage = {
-      _id: Math.random().toString(), // You can use a unique ID generator library here
+      _id: Math.random().toString(),
       text: messages[0].text,
-      // createdAt: new Date(),
       user: {
         _id: userId,
         name: 'new',
@@ -80,71 +121,96 @@ const ChatScreen = ({route, navigation}) => {
       GiftedChat.append(previousMessages, [newMessage]),
     );
 
+    // socket.emit('send_message', {
+    //   senderId: sender,
+    //   receiverIds: [rcvr],
+    //   message: {
+    //     content,
+    //     // qrCode: 'xxxxxxxxxxxxxx',
+    //     // attachmentIds: ['604db1fe95c52b43246a0eb3', '604db1fe95c52b43246a0eb4'],
+    //   },
+    // });
+    console.log('myuserid:', userId);
+    console.log('receiveruserId:', contact.userBasicDetails._id);
+
     // Emit the message to the server using the socket
-    // Replace the socket.emit() call with your actual logic
-    // socket.emit('send_message', { ... });
-
-    // You can simulate the server response with a setTimeout for demonstration purposes
-    setTimeout(() => {
-      // Replace this with the actual response from the server
-      const serverResponse = {
-        _id: Math.random().toString(), // You can use a unique ID generator library here
-        text: messages[0].text,
-        // createdAt: new Date(),
-        user: {
-          _id: userId, // Replace userId with the actual receiver's ID
-          name: 'ayesha', // Replace contact.name with the actual receiver's name
+    socket.emit(
+      'send_message',
+      {
+        senderId: userId,
+        receiverIds: [contact.userBasicDetails._id],
+        message: {
+          content: messages[0].text,
         },
-      };
+      },
+      acknowledgmentData => {
+        // This callback will be executed when the server acknowledges the message
+        // acknowledgmentData can be any data sent by the server as an acknowledgment
+        console.log('Message sent to server:hhhhhh', acknowledgmentData);
+      },
+    );
 
-      // Replace the temporary message with the server response
-      setChatMessages(previousMessages =>
-        previousMessages.map(msg =>
-          msg._id === newMessage._id ? serverResponse : msg,
-        ),
-      );
-    }, 1000); // Simulating a 1-second delay for the server response
+    // // You can simulate the server response with a setTimeout for demonstration purposes
+    // setTimeout(() => {
+    //   // Replace this with the actual response from the server
+    //   const serverResponse = {
+    //     _id: Math.random().toString(), // You can use a unique ID generator library here
+    //     text: messages[0].text,
+    //     // createdAt: new Date(),
+    //     user: {
+    //       _id: userId, // Replace userId with the actual receiver's ID
+    //       name: 'ayesha', // Replace contact.name with the actual receiver's name
+    //     },
+    //   };
+
+    //   // Replace the temporary message with the server response
+    //   setChatMessages(previousMessages =>
+    //     previousMessages.map(msg =>
+    //       msg._id === newMessage._id ? serverResponse : msg,
+    //     ),
+    //   );
+    // }, 1000); // Simulating a 1-second delay for the server response
   };
 
-  useEffect(() => {
-    // Create some dummy messages
-    fetchUserId();
-    const dummyMessages = [
-      {
-        _id: 1,
-        text: 'Hello',
-        // createdAt: new Date(),
-        user: {
-          _id: 100,
-          name: 'ayesha',
-        },
-      },
-      {
-        _id: 2,
-        text: 'How are you?',
-        // createdAt: new Date(),
-        user: {
-          _id: 100,
-          name: 'ayesha',
-        },
-      },
-      {
-        _id: 3,
-        text: 'Hi, I am good?',
-        // createdAt: new Date(),
-        user: {
-          _id: userId,
-          name: 'ayesha',
-        },
-      },
-      // Add more dummy messages as needed
-    ];
+  // useEffect(() => {
+  //   // Create some dummy messages
+  //   fetchUserId();
+  //   const dummyMessages = [
+  //     {
+  //       _id: 1,
+  //       text: 'Hello',
+  //       // createdAt: new Date(),
+  //       user: {
+  //         _id: 100,
+  //         name: 'ayesha',
+  //       },
+  //     },
+  //     {
+  //       _id: 2,
+  //       text: 'How are you?',
+  //       // createdAt: new Date(),
+  //       user: {
+  //         _id: 100,
+  //         name: 'ayesha',
+  //       },
+  //     },
+  //     {
+  //       _id: 3,
+  //       text: 'Hi, I am good?',
+  //       // createdAt: new Date(),
+  //       user: {
+  //         _id: userId,
+  //         name: 'ayesha',
+  //       },
+  //     },
+  //     // Add more dummy messages as needed
+  //   ];
 
-    // Set the dummy messages as initial chat messages
-    setChatMessages(dummyMessages.reverse());
+  //   // Set the dummy messages as initial chat messages
+  //   setChatMessages(dummyMessages.reverse());
 
-    // ...
-  }, []);
+  //   // ...
+  // }, []);
 
   const renderBubble = props => {
     return (

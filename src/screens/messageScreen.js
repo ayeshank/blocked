@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   View,
   Text,
@@ -13,47 +13,25 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import {useTranslation} from 'react-i18next';
 import {userIcon} from '../theme/theme';
-import {fetchContacts} from '../reducers/contactsAction.js';
+import {fetchContacts, searchUser} from '../reducers/contactsAction.js';
 import Snackbar from 'react-native-snackbar';
 import {connect} from 'react-redux';
 import Wrapper from '../components/wrapper';
+import {debounce} from 'lodash';
 
-const MessageScreen = ({fetchContacts}) => {
+const MessageScreen = ({fetchContacts, searchUser}) => {
   const navigation = useNavigation();
   const {t} = useTranslation();
   const [searchQuery, setSearchQuery] = useState('');
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [noContactFound, setNoContactFound] = useState(false);
-  const dummyContacts = [
-    {
-      id: 1,
-      name: 'hjk@gmail.com',
-      phoneNumber: 'Contacts',
-      image: userIcon,
-    },
-    {
-      id: 2,
-      name: 'al@gmail.com',
-      phoneNumber: 'Contacts',
-      image: userIcon,
-    },
-    {
-      id: 3,
-      name: 'bilalsoftware6285@gmail.com',
-      phoneNumber: 'Contacts',
-      image: userIcon,
-    },
-    {
-      id: 4,
-      name: 'talha1392.ahmed@gmail.com',
-      phoneNumber: 'Contacts',
-      image: userIcon,
-    },
-  ];
+  const [noChats, setNoChats] = useState(false);
 
   const filteredContacts = contacts?.filter(contact =>
-    contact.name.toLowerCase().includes(searchQuery.toLowerCase()),
+    contact.userProfileDetails.firstName
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase()),
   );
 
   const handleSearch = query => {
@@ -61,41 +39,28 @@ const MessageScreen = ({fetchContacts}) => {
   };
 
   const handleContactPress = contact => {
+    console.log('contact: ', contact);
     navigation.navigate('ChatScreen', {contact});
   };
 
   const handleFetchContacts = async () => {
     try {
       const data = await fetchContacts();
-      if (
-        data.error &&
-        data.error.response &&
-        data.error.response.status === 400
-      ) {
-        Snackbar.show({
-          backgroundColor: 'red',
-          text: 'Failed to fetch Contacts',
-          duration: Snackbar.LENGTH_LONG,
-        });
+      if (data.length === 0) {
+        setNoChats(true);
       } else {
-        if (data.length == 0) {
-          setNoContactFound(false);
-          setContacts(dummyContacts);
-        } else {
-          // setContacts(data);
-          setNoContactFound(false);
-          setContacts(data);
-        }
-        Snackbar.show({
-          backgroundColor: 'green',
-          text: t('Successfully Fetched Contacts'),
-          duration: Snackbar.LENGTH_LONG,
-        });
+        setNoChats(false);
+        setContacts(data);
       }
+      Snackbar.show({
+        backgroundColor: 'green',
+        text: t('Successfully Fetched Chats'),
+        duration: Snackbar.LENGTH_LONG,
+      });
     } catch (error) {
       Snackbar.show({
         backgroundColor: 'red',
-        text: t('Error occurred while fetching contacts'),
+        text: t('Error occurred while fetching chats'),
         duration: Snackbar.LENGTH_LONG,
       });
     } finally {
@@ -103,17 +68,57 @@ const MessageScreen = ({fetchContacts}) => {
     }
   };
 
+  const debouncedSearchUser = useCallback(
+    debounce(async query => {
+      try {
+        console.log('tttttttttttttttttttttttttttttttttttt');
+        const data = await searchUser(query);
+        if (data.length === 0) {
+          setNoContactFound(true);
+        } else {
+          setNoContactFound(false);
+          setContacts(data);
+          // Snackbar.show({
+          //   backgroundColor: 'green',
+          //   text: t('Successfully Fetched Users'),
+          //   duration: Snackbar.LENGTH_LONG,
+          // });
+        }
+      } catch (error) {
+        console.log('Error searching users: ', error);
+        Snackbar.show({
+          backgroundColor: 'red',
+          text: t('Error occurred while fetching users'),
+          duration: Snackbar.LENGTH_LONG,
+        });
+      }
+    }, 500),
+    [],
+  );
+
   useEffect(() => {
     handleFetchContacts();
   }, []);
+
+  useEffect(() => {
+    // Call debouncedSearchUser after the user stops typing in the search field
+    if (searchQuery.trim().length > 0) {
+      debouncedSearchUser(searchQuery);
+    } else {
+      // If the searchQuery is empty, set contacts to an empty array
+      setContacts([]);
+    }
+  }, [searchQuery]);
 
   const renderContactItem = ({item}) => (
     <TouchableOpacity onPress={() => handleContactPress(item)}>
       <View style={styles.contactItem}>
         <Image source={userIcon} style={styles.contactImage} />
         <View style={styles.contactDetails}>
-          <Text style={styles.contactName}>{item.name}</Text>
-          <Text style={styles.contactPhoneNumber}>{item.phoneNumber}</Text>
+          <Text style={styles.contactName}>{item.userBasicDetails.email}</Text>
+          <Text style={styles.contactPhoneNumber}>
+            {item.userBasicDetails.phone}
+          </Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -152,17 +157,30 @@ const MessageScreen = ({fetchContacts}) => {
         value={searchQuery}
         onChangeText={handleSearch}
       />
-      {noContactFound == true ? (
+      {searchQuery.length === 0 ? (
+        noChats ? (
+          <View style={styles.noContact}>
+            <Text style={styles.noContactText}>
+              {t('Oops! You dont have any chats :(')}
+            </Text>
+          </View>
+        ) : (
+          <FlatList
+            style={styles.listStyle}
+            data={searchQuery.length > 0 ? contacts : filteredContacts}
+            keyExtractor={item => item.userBasicDetails._id.toString()}
+            renderItem={renderContactItem}
+          />
+        )
+      ) : noContactFound ? (
         <View style={styles.noContact}>
-          <Text style={styles.noContactText}>
-            {t('Oops! You dont have any contacts :(')}
-          </Text>
+          <Text style={styles.noContactText}>{t('No User Found')}</Text>
         </View>
       ) : (
         <FlatList
           style={styles.listStyle}
-          data={filteredContacts}
-          keyExtractor={item => item.id.toString()}
+          data={searchQuery.length > 0 ? contacts : filteredContacts}
+          keyExtractor={item => item.userBasicDetails._id.toString()}
           renderItem={renderContactItem}
         />
       )}
@@ -233,4 +251,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default connect(null, {fetchContacts})(MessageScreen);
+export default connect(null, {fetchContacts, searchUser})(MessageScreen);
