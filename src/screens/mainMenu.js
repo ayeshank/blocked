@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Dimensions, ScrollView, BackHandler} from 'react-native';
+import {View, Dimensions, ScrollView, BackHandler, Linking} from 'react-native';
 import GlobalHeader from '../components/GlobalHeader';
 import styles from '../theme/theme';
 import Wrapper from '../components/wrapper';
@@ -10,6 +10,7 @@ import {useTranslation} from 'react-i18next';
 import LogoutDialog from '../components/LogoutDialog';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {TouchableOpacity} from 'react-native-gesture-handler';
+import {goToAppSettings, openInStore} from 'react-native-app-link';
 
 const MainMenu = () => {
   const {t} = useTranslation();
@@ -21,7 +22,33 @@ const MainMenu = () => {
   const handleMenuSelect = itemName => {
     setSelectedItem(itemName);
   };
+  const openOtherApp = async () => {
+    const packageName = 'com.bloackloan';
 
+    // Check if the app is installed on the device
+    const isInstalled = await openInStore(packageName);
+    console.log('isInstalled', isInstalled);
+    // if (Platform.OS === 'android') {
+    //   Linking.openURL(
+    //     `intent://${packageName}#Intent;scheme=${packageName};end`,
+    //   );
+    // } else {
+    //   console.log('Opening apps by package name is not supported on iOS.');
+    // }
+    if (isInstalled) {
+      // Open the app if installed
+      console.log('working1');
+      await Linking.openURL(`market://details?id=${packageName}`);
+      // Linking.openURL(
+      //   `intent://${packageName}#Intent;scheme=${packageName};end`,
+      // );
+    } else {
+      console.log('working2');
+
+      // Redirect to the app store to download the app
+      goToAppSettings(packageName);
+    }
+  };
   const handleLogout = async () => {
     // Remove the session token or user data from AsyncStorage
     try {
@@ -78,6 +105,16 @@ const MainMenu = () => {
               screenName="TodayAppointment"
               navigation={navigation}
               onSelect={() => handleMenuSelect('Calender')}
+              selected={selectedItem}
+            />
+            <Menus
+              name={t('BlockLoans')}
+              // screenName=""
+              // navigation={navigation}
+              onSelect={() => {
+                handleMenuSelect('My Wallet');
+                openOtherApp();
+              }}
               selected={selectedItem}
             />
             <Menus
