@@ -121,7 +121,10 @@ const AppNavigator = () => {
           name="ChatScreen"
           component={ChatScreen}
           options={({navigation, route}) => ({
-            title: route.params.contact.name,
+            title:
+              route.params.contact.userProfileDetails.firstName +
+              ' ' +
+              route.params.contact.userProfileDetails.lastName,
             // title: 'dummy',
             headerShown: true,
             headerStyle: {

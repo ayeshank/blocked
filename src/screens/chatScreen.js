@@ -26,23 +26,8 @@ const ChatScreen = ({route, navigation}) => {
   });
 
   useEffect(() => {
-    // Fetch the user ID and store it in the state
-    fetchUserId();
-
     // Connect to the server and join the chat room using Socket.io
     socket.connect();
-
-    // // Handle incoming messages from the server
-    // socket.on('message', newMessage => {
-    //   setChatMessages(previousMessages =>
-    //     GiftedChat.append(previousMessages, [newMessage]),
-    //   );
-    // });
-    // socket.on('receive_conversation_messages_list', data => {
-    //   // console.log(`Received Conversation Messages List `,data);
-    //   setChatMessages(data);
-    //   // setRcvdMsg(JSON.stringify(data))
-    // });
 
     socket.on('receive_conversation_messages_list', data => {
       try {
@@ -56,53 +41,63 @@ const ChatScreen = ({route, navigation}) => {
       }
     });
 
-    // Listen for send_message_success event to handle the acknowledgment
-    socket.on('send_message_success', acknowledgmentData => {
-      console.log('Message sent to server:', acknowledgmentData);
-      // You can update your UI or handle anything related to successful message sending here
+    socket.on('receive_message', data => {
+      console.log(`Received Message ${JSON.stringify(data)}`);
+      // setRcvdMsg(data.message.content);
     });
-
-    // Listen for send_message_error event to handle any errors
-    socket.on('send_message_error', err => {
-      console.warn('Error sending message:', err);
-      // You can show an error message to the user or handle any error scenarios here
-    });
-
-    // socket.on('receive_message', data => {
-    //   console.warn(`Received Message ${JSON.stringify(data)}`);
-    //   setRcvdMsg(data.message.content);
-    // });
 
     socket.on('request_payload_error', data => {
       console.warn(`Request Payload Error ${JSON.stringify(data)}`);
     });
 
-    socket.on('receive_user_is_typing', data => {
-      console.warn(`This User is typing ${JSON.stringify(data)}`);
-    });
+    // socket.on('receive_user_is_typing', data => {
+    //   console.warn(`This User is typing ${JSON.stringify(data)}`);
+    // });
 
-    socket.on('receive_read_message', data => {
-      console.warn(`Message is read by this User ${JSON.stringify(data)}`);
-    });
+    // socket.on('receive_read_message', data => {
+    //   console.warn(`Message is read by this User ${JSON.stringify(data)}`);
+    // });
 
-    socket.on('receive_seen_message', data => {
-      console.warn(`Message is seen by this User ${JSON.stringify(data)}`);
-    });
+    // socket.on('receive_seen_message', data => {
+    //   console.warn(`Message is seen by this User ${JSON.stringify(data)}`);
+    // });
 
     socket.on('joi_validation_exception', data => {
       console.warn(`Joi Validation Exception ${JSON.stringify(data)}`);
     });
 
-    // Clean up the socket connection when the component unmounts
     return () => {
       socket.disconnect();
     };
   }, []);
 
+  useEffect(() => {
+    fetchUserId();
+  }, [userId]);
+
   const fetchUserId = async () => {
-    // Fetch the user ID from AsyncStorage or any other storage mechanism
-    const getUser = await AsyncStorage.getItem('user_id');
-    setUserId(getUser);
+    try {
+      const getUser = await AsyncStorage.getItem('user_id');
+      setUserId(getUser);
+      console.log('Fetched user ID:', getUser);
+      console.log(
+        'ontact.userProfileDetails._id: ',
+        contact.userProfileDetails._id,
+      );
+      if (getUser) {
+        socket.emit('get_conversation_messages_list', {
+          userId: getUser, // Use the fetched user ID here
+          receiverId: contact.userProfileDetails._id,
+          limit: parseInt(100),
+          skip: parseInt(0),
+          sortOrder: 'asc',
+        });
+      } else {
+        console.error('User ID not found in AsyncStorage.');
+      }
+    } catch (error) {
+      console.error('Error fetching user ID:', error);
+    }
   };
 
   const onSend = (messages = []) => {
@@ -121,55 +116,28 @@ const ChatScreen = ({route, navigation}) => {
       GiftedChat.append(previousMessages, [newMessage]),
     );
 
-    // socket.emit('send_message', {
-    //   senderId: sender,
-    //   receiverIds: [rcvr],
-    //   message: {
-    //     content,
-    //     // qrCode: 'xxxxxxxxxxxxxx',
-    //     // attachmentIds: ['604db1fe95c52b43246a0eb3', '604db1fe95c52b43246a0eb4'],
-    //   },
-    // });
     console.log('myuserid:', userId);
-    console.log('receiveruserId:', contact.userBasicDetails._id);
+    console.log('receiveruserId:', contact.userProfileDetails._id);
+    console.log('messages[0].text: ', messages[0]);
 
-    // Emit the message to the server using the socket
     socket.emit(
       'send_message',
       {
         senderId: userId,
-        receiverIds: [contact.userBasicDetails._id],
+        receiverIds: [contact.userProfileDetails._id],
         message: {
           content: messages[0].text,
+          qrCode: 'xxxxxxxxxxxxxx',
+          attachmentIds: [
+            '604db1fe95c52b43246a0eb3',
+            '604db1fe95c52b43246a0eb4',
+          ],
         },
       },
       acknowledgmentData => {
-        // This callback will be executed when the server acknowledges the message
-        // acknowledgmentData can be any data sent by the server as an acknowledgment
         console.log('Message sent to server:hhhhhh', acknowledgmentData);
       },
     );
-
-    // // You can simulate the server response with a setTimeout for demonstration purposes
-    // setTimeout(() => {
-    //   // Replace this with the actual response from the server
-    //   const serverResponse = {
-    //     _id: Math.random().toString(), // You can use a unique ID generator library here
-    //     text: messages[0].text,
-    //     // createdAt: new Date(),
-    //     user: {
-    //       _id: userId, // Replace userId with the actual receiver's ID
-    //       name: 'ayesha', // Replace contact.name with the actual receiver's name
-    //     },
-    //   };
-
-    //   // Replace the temporary message with the server response
-    //   setChatMessages(previousMessages =>
-    //     previousMessages.map(msg =>
-    //       msg._id === newMessage._id ? serverResponse : msg,
-    //     ),
-    //   );
-    // }, 1000); // Simulating a 1-second delay for the server response
   };
 
   // useEffect(() => {
